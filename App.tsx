@@ -9,6 +9,7 @@ import { Messages } from './pages/Messages';
 import { Profile } from './pages/Profile';
 import { Favorites } from './pages/Favorites';
 import { UserProfile } from './pages/UserProfile';
+import { Carton } from './pages/Carton';
 import { Product, User } from './types';
 import { MOCK_PRODUCTS } from './constants';
 
@@ -20,6 +21,7 @@ const App = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
+  const [cartonQuantities, setCartonQuantities] = useState<Map<string, number>>(new Map());
 
   // Navigation handlers
   const handleProductClick = (product: Product) => {
@@ -51,6 +53,16 @@ const App = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleNavigateToCarton = () => {
+    setActiveTab('carton');
+    window.scrollTo(0, 0);
+  };
+
+  const handleBackFromCarton = () => {
+    setActiveTab('user-profile');
+    window.scrollTo(0, 0);
+  };
+
   const handleFavoriteToggle = (productId: string) => {
     setFavoriteIds(prev => {
       const newSet = new Set(prev);
@@ -63,12 +75,24 @@ const App = () => {
     });
   };
 
+  const handleAddToCarton = (productId: string, quantity: number = 1) => {
+    setCartonQuantities(prev => {
+      const newMap = new Map(prev);
+      if (quantity <= 0) {
+        newMap.delete(productId);
+      } else {
+        newMap.set(productId, quantity);
+      }
+      return newMap;
+    });
+  };
+
   const favoriteProducts = MOCK_PRODUCTS.filter(p => favoriteIds.has(p.id));
 
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
+        return <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} onUserClick={handleUserClick} />;
       case 'explore':
         return <Explore onProductClick={handleProductClick} initialCategory={selectedCategory || 'all'} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
       case 'product-detail':
@@ -93,12 +117,24 @@ const App = () => {
             onProductClick={handleProductClick}
             favoriteIds={favoriteIds}
             onFavoriteToggle={handleFavoriteToggle}
+            cartonQuantities={cartonQuantities}
+            onAddToCarton={handleAddToCarton}
+            onNavigateToCarton={handleNavigateToCarton}
           />
         ) : (
-          <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />
+          <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} onUserClick={handleUserClick} />
+        );
+      case 'carton':
+        return (
+          <Carton 
+            cartonQuantities={cartonQuantities}
+            onProductClick={handleProductClick}
+            onUpdateQuantity={handleAddToCarton}
+            onBack={handleBackFromCarton}
+          />
         );
       default:
-        return <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
+        return <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} onUserClick={handleUserClick} />;
     }
   };
 

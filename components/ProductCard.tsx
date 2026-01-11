@@ -8,12 +8,48 @@ interface ProductCardProps {
   isFavorite?: boolean;
   onFavoriteToggle?: () => void;
   isFeatured?: boolean;
+  isSelectionMode?: boolean;
+  cartonQuantity?: number;
+  onAddToCarton?: (quantity: number) => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFavorite = false, onFavoriteToggle, isFeatured = false }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFavorite = false, onFavoriteToggle, isFeatured = false, isSelectionMode = false, cartonQuantity = 0, onAddToCarton }) => {
+  const [showQuantitySelector, setShowQuantitySelector] = React.useState(false);
+  const [quantity, setQuantity] = React.useState(1);
+  const hasStock = product.stock !== undefined && product.stock > 0;
+  const isInCarton = cartonQuantity > 0;
+
+  React.useEffect(() => {
+    if (isInCarton && cartonQuantity > 0) {
+      setQuantity(cartonQuantity);
+    } else {
+      setQuantity(1);
+    }
+  }, [cartonQuantity, isInCarton]);
+
+  const handlePlusClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (hasStock && !isInCarton) {
+      setShowQuantitySelector(true);
+    } else if (isInCarton) {
+      onAddToCarton?.(0);
+    }
+  };
+
+  const handleQuantityConfirm = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onAddToCarton?.(quantity);
+    setShowQuantitySelector(false);
+  };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    if (product.stock !== undefined) {
+      setQuantity(Math.max(1, Math.min(newQuantity, product.stock)));
+    }
+  };
   return (
     <div 
-      className={`group relative rounded-[1.75rem] shadow-sm hover:shadow-md transition-all cursor-pointer ${isFeatured ? 'p-[2px] bg-gradient-to-b from-wine-600 to-wine-900' : 'border border-gray-100 bg-white'}`}
+      className={`group relative rounded-[1.75rem] shadow-sm hover:shadow-md transition-all cursor-pointer ${isFeatured ? 'p-[2px] bg-wine-900' : 'border border-gray-100 bg-white'}`}
       onClick={onClick}
     >
       <div className={`bg-white overflow-hidden h-full ${isFeatured ? 'rounded-[1.625rem]' : 'rounded-[1.75rem]'}`}>
@@ -26,19 +62,79 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFa
         />
         
         {/* Like Button */}
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            onFavoriteToggle?.();
-          }}
-          className="absolute top-3 right-3 z-10 transition-all heart-favorite-button"
-        >
-          <Icons.Heart 
-            size={20} 
-            strokeWidth={1}
-            className={`${isFavorite ? 'fill-wine-900' : 'fill-none'} stroke-white transition-all duration-300`}
-          />
-        </button>
+        {!isSelectionMode && (
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onFavoriteToggle?.();
+            }}
+            className="absolute top-3 right-3 z-10 transition-all heart-favorite-button"
+          >
+            <Icons.Heart 
+              size={20} 
+              strokeWidth={1}
+              className={`${isFavorite ? 'fill-wine-900' : 'fill-none'} stroke-white transition-all duration-300`}
+            />
+          </button>
+        )}
+
+        {/* Add to Carton Button (Selection Mode) */}
+        {isSelectionMode && (
+          <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+            {showQuantitySelector && hasStock ? (
+              <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md rounded-full px-2 py-1.5 border border-white/50 shadow-lg" style={{ animation: 'quantitySelectorExpand 0.3s ease-out' }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleQuantityChange(quantity - 1);
+                  }}
+                  className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors"
+                  disabled={quantity <= 1}
+                >
+                  <Icons.Minus size={12} strokeWidth={3} />
+                </button>
+                <span className="text-sm text-airbnb-bold text-gray-900 min-w-[2ch] text-center">{quantity}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleQuantityChange(quantity + 1);
+                  }}
+                  className="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors"
+                  disabled={product.stock !== undefined && quantity >= product.stock}
+                >
+                  <Icons.Plus size={12} strokeWidth={3} />
+                </button>
+                <button
+                  onClick={handleQuantityConfirm}
+                  className="ml-1 px-2 py-1 rounded-full bg-wine-900 text-white text-xs text-airbnb-medium hover:bg-wine-800 transition-colors"
+                >
+                  OK
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handlePlusClick}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                  isInCarton
+                    ? 'bg-wine-900 text-white'
+                    : 'bg-white/90 backdrop-blur-md text-wine-900 border border-white/50 hover:bg-wine-900 hover:text-white'
+                }`}
+              >
+                {isInCarton ? (
+                  <Icons.X 
+                    size={18} 
+                    strokeWidth={2.5}
+                  />
+                ) : (
+                  <Icons.Plus 
+                    size={18} 
+                    strokeWidth={2.5}
+                  />
+                )}
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Glassmorphism Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
@@ -75,6 +171,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFa
         <div className="flex items-baseline gap-1 mb-2">
           <span className="text-lg text-airbnb-bold text-gray-900">{product.price} {product.currency}</span>
           <span className="text-xs text-airbnb-light text-gray-500">{product.volume}</span>
+        </div>
+        <div className="min-h-[1.25rem] mb-2">
+          {product.stock !== undefined && product.stock > 0 && (
+            <div className="text-xs text-airbnb-medium text-wine-900">
+              Stock : {product.stock} {product.stock > 1 ? 'bouteilles' : 'bouteille'}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between text-xs text-airbnb-light text-gray-500">

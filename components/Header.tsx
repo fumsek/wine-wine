@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
           onClick={() => setActiveTab('home')}
         >
           <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-8 w-auto" />
-          <img src="/logo-wine-wine.png" alt="Wine Wine" className="h-4 w-auto" />
+          <img src="/logo-seul-wine-wine-2.png" alt="Wine Wine" className="h-4 w-auto" />
         </div>
 
         {/* Search Bar (Desktop & Mobile) */}

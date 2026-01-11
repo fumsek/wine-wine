@@ -83,11 +83,17 @@ export const CreateListing = () => {
                 </div>
             </div>
 
-            <div>
-                <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Prix (€)</label>
-                <div className="relative">
-                    <input type="number" placeholder="0" className="w-full p-2.5 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none" />
-                    <span className="absolute left-3 top-2.5 text-gray-500">€</span>
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Prix (€)</label>
+                    <div className="relative">
+                        <input type="number" placeholder="0" className="w-full p-2.5 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none" />
+                        <span className="absolute left-3 top-2.5 text-gray-500">€</span>
+                    </div>
+                </div>
+                <div>
+                    <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Stock (optionnel)</label>
+                    <input type="number" min="1" placeholder="Nb bouteilles" className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none" />
                 </div>
             </div>
 

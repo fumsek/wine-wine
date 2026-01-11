@@ -13,7 +13,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack })
     <div className="max-w-5xl mx-auto px-4 py-6 pb-24 md:pb-8">
       {/* Breadcrumb / Back */}
       <button onClick={onBack} className="flex items-center text-gray-500 hover:text-wine-900 mb-4 transition-colors">
-        <Icons.ArrowLeftRight className="rotate-180 mr-2" size={16} /> {/* Using ArrowLeftRight as rough back icon */}
+        <Icons.ArrowLeft className="mr-2" size={16} />
         Retour
       </button>
 

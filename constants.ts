@@ -198,7 +198,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Macallan 18 ans Sherry Oak (2023)',
     price: 450,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=800&q=80'],
+    images: ['/IMG_4572.JPG'],
     category: 'whisky',
     isTradeable: true,
     isRare: true,
@@ -208,14 +208,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Aujourd\'hui, 10:30',
     seller: MOCK_USER_COLLECTOR,
     description: 'Bouteille en parfait état, étui inclus. Conservée en cave à température constante. Échange possible contre Japonais (Yamazaki 12 ou Hibiki 17 + soulte).',
-    specs: { origin: 'Écosse', distillery: 'The Macallan', vintage: '2023', abv: '43%' }
+    specs: { origin: 'Écosse', distillery: 'The Macallan', vintage: '2023', abv: '43%' },
+    stock: 1
   },
   {
     id: 'p2',
     title: 'Chartreuse VEP Verte (2018)',
     price: 180,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80'], // Green bottle
+    images: ['/IMG_4568.JPG'], // Green bottle
     category: 'liqueur',
     isTradeable: false,
     isRare: true,
@@ -225,14 +226,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier, 18:45',
     seller: MOCK_USER_PRO,
     description: 'Vieillissement Exceptionnellement Prolongé. Bouteille numérotée, coffret bois d\'origine. Facture disponible.',
-    specs: { origin: 'France', distillery: 'Pères Chartreux', vintage: '2018', abv: '54%' }
+    specs: { origin: 'France', distillery: 'Pères Chartreux', vintage: '2018', abv: '54%' },
+    stock: 6
   },
   {
     id: 'p3',
     title: 'Caroni 1996 Trinidad Rum',
     price: 1200,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1614313511387-1436a4480ebb?w=800&q=80'], // Dark Rum
+    images: ['/IMG_4567.JPG'], // Dark Rum
     category: 'rhum',
     isTradeable: true,
     isRare: true,
@@ -242,14 +244,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2h',
     seller: MOCK_USER_COLLECTOR,
     description: 'Une légende. Niveau parfait. Pour collectionneur averti. Remise en main propre privilégiée vu la valeur.',
-    specs: { origin: 'Trinidad', distillery: 'Caroni', vintage: '1996', abv: '55%' }
+    specs: { origin: 'Trinidad', distillery: 'Caroni', vintage: '1996', abv: '55%' },
+    stock: 1
   },
   {
     id: 'p4',
     title: 'Lot découverte Vins Nature (6 bouteilles)',
     price: 95,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80'], // Wine bottles collection
+    images: ['/IMG_4566.JPG'], // Wine bottles collection
     category: 'rouge',
     isTradeable: false,
     isRare: false,
@@ -259,14 +262,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 5h',
     seller: MOCK_USER_PRO,
     description: 'Sélection du caviste : 2 Beaujolais (Lapierre), 2 Loire (Breton), 2 Jura (Tissot). Idéal pour découvrir.',
-    specs: { origin: 'France', vintage: '2021-2022' }
+    specs: { origin: 'France', vintage: '2021-2022' },
+    stock: 7
   },
   {
     id: 'p5',
     title: 'Hibiki Japanese Harmony',
     price: 110,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=800&q=80'], // Japanese Whisky vibe
+    images: ['/IMG_4577.JPG'], // Japanese Whisky vibe
     category: 'whisky',
     isTradeable: true,
     isRare: false,
@@ -276,7 +280,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 1j',
     seller: MOCK_USER_COLLECTOR,
     description: 'Doublon dans ma collection. Échange contre Gin haut de gamme ou vente.',
-    specs: { origin: 'Japon', distillery: 'Suntory', abv: '43%' }
+    specs: { origin: 'Japon', distillery: 'Suntory', abv: '43%' },
+    stock: 2
   },
 
   // --- VINS ROUGES ---
@@ -285,7 +290,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Château Margaux 2015',
     price: 850,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=800&q=80'],
+    images: ['/IMG_4573.JPG'],
     category: 'rouge',
     isTradeable: false,
     isRare: true,
@@ -295,14 +300,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2j',
     seller: MOCK_USER_PRO,
     description: 'Premier Grand Cru Classé. Millésime exceptionnel. Conservé en cave professionnelle.',
-    specs: { origin: 'Bordeaux, France', distillery: 'Château Margaux', vintage: '2015' }
+    specs: { origin: 'Bordeaux, France', distillery: 'Château Margaux', vintage: '2015' },
+    stock: 3
   },
   {
     id: 'p7',
     title: 'Côte-Rôtie "La Mouline" Guigal 2012',
     price: 380,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80'],
+    images: ['/IMG_4571.JPG'],
     category: 'rouge',
     isTradeable: true,
     isRare: true,
@@ -312,7 +318,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 3h',
     seller: MOCK_USER_SOPHIE,
     description: 'Une des trois "La" de Guigal. Parfait état.',
-    specs: { origin: 'Vallée du Rhône', vintage: '2012' }
+    specs: { origin: 'Vallée du Rhône', vintage: '2012' },
+    stock: 1
   },
 
   // --- VINS BLANCS ---
@@ -321,7 +328,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Puligny-Montrachet 1er Cru 2020',
     price: 125,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?w=800&q=80'], // White wine
+    images: ['/IMG_4575.JPG'], // White wine
     category: 'blanc',
     isTradeable: false,
     isRare: false,
@@ -331,14 +338,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 1j',
     seller: MOCK_USER_PRO,
     description: 'Domaine Leflaive. Vin d\'une grande finesse. Idéal garde ou dégustation.',
-    specs: { origin: 'Bourgogne', vintage: '2020' }
+    specs: { origin: 'Bourgogne', vintage: '2020' },
+    stock: 4
   },
   {
     id: 'p9',
     title: 'Condrieu "La Doriane" Guigal 2021',
     price: 95,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?w=800&q=80'], // White wine glass/bottle
+    images: ['/IMG_4574.JPG'], // White wine glass/bottle
     category: 'blanc',
     isTradeable: true,
     isRare: false,
@@ -348,7 +356,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 4h',
     seller: MOCK_USER_COLLECTOR,
     description: 'Le must du Viognier. Je vends car j\'en ai trop acheté.',
-    specs: { origin: 'Vallée du Rhône', vintage: '2021' }
+    specs: { origin: 'Vallée du Rhône', vintage: '2021' },
+    stock: 5
   },
 
   // --- VINS ROSÉS ---
@@ -357,7 +366,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Miraval Rosé Côtes de Provence (Carton de 6)',
     price: 90,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1558981806-ec527fa84c3d?w=800&q=80'], // Rosé
+    images: ['/IMG_4569.JPG'], // Rosé
     category: 'rose',
     isTradeable: false,
     isRare: false,
@@ -367,14 +376,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2j',
     seller: MOCK_USER_PRO,
     description: 'Millésime 2023. Le rosé star de l\'été.',
-    specs: { origin: 'Provence', vintage: '2023' }
+    specs: { origin: 'Provence', vintage: '2023' },
+    stock: 7
   },
   {
     id: 'p11',
     title: 'Domaine Ott "Château de Selle" Magnum',
     price: 75,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=800&q=80'], // Rosé magnum vibe
+    images: ['/IMG_4565.JPG'], // Rosé magnum vibe
     category: 'rose',
     isTradeable: false,
     isRare: false,
@@ -384,7 +394,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_SOPHIE,
     description: 'Superbe magnum pour les fêtes. Rosé de gastronomie.',
-    specs: { origin: 'Provence', vintage: '2022' }
+    specs: { origin: 'Provence', vintage: '2022' },
+    stock: 6
   },
 
   // --- CHAMPAGNES ---
@@ -393,7 +404,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Dom Pérignon Vintage 2012',
     price: 240,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1594488518600-d86016e792c3?w=800&q=80'],
+    images: ['/IMG_4564.JPG'],
     category: 'champagne',
     isTradeable: true,
     isRare: true,
@@ -403,14 +414,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Aujourd\'hui',
     seller: MOCK_USER_PRO,
     description: 'Coffret original. Conservation parfaite en cave crayère.',
-    specs: { origin: 'Champagne', distillery: 'Moët & Chandon', vintage: '2012' }
+    specs: { origin: 'Champagne', distillery: 'Moët & Chandon', vintage: '2012' },
+    stock: 2
   },
   {
     id: 'p13',
     title: 'Krug Grande Cuvée 170ème Édition',
     price: 290,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1598155523122-38423bb4d6c1?w=800&q=80'], // Champagne bottle
+    images: ['/IMG_4576.JPG'], // Champagne bottle
     category: 'champagne',
     isTradeable: false,
     isRare: true,
@@ -420,7 +432,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 5j',
     seller: MOCK_USER_COLLECTOR,
     description: 'L\'expression ultime du Champagne. Acheté chez un caviste agréé.',
-    specs: { origin: 'Champagne', distillery: 'Krug' }
+    specs: { origin: 'Champagne', distillery: 'Krug' },
+    stock: 1
   },
 
   // --- BIÈRES ---
@@ -429,7 +442,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Cantillon Gueuze 100% Lambic Bio',
     price: 25,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1566633806327-68e152aaf26d?w=800&q=80'], // Beer bottle
+    images: ['/IMG_4570.JPG'], // Beer bottle
     category: 'biere',
     isTradeable: true,
     isRare: true,
@@ -439,14 +452,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 3h',
     seller: MOCK_USER_DISTILLERY,
     description: 'Millésime 2021. Rare en France. Conservée debout.',
-    specs: { origin: 'Belgique', distillery: 'Brasserie Cantillon', abv: '5.5%' }
+    specs: { origin: 'Belgique', distillery: 'Brasserie Cantillon', abv: '5.5%' },
+    stock: 7
   },
   {
     id: 'p15',
     title: 'Westvleteren 12 (Pack de 6)',
     price: 90,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1608270586620-248524c67de9?w=800&q=80'], // Dark beer bottle
+    images: ['/IMG_4572.JPG'], // Dark beer bottle
     category: 'biere',
     isTradeable: false,
     isRare: true,
@@ -456,7 +470,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_COLLECTOR,
     description: 'La meilleure bière du monde selon RateBeer. Achetée à l\'abbaye.',
-    specs: { origin: 'Belgique', distillery: 'Abbaye de Saint-Sixtus', abv: '10.2%' }
+    specs: { origin: 'Belgique', distillery: 'Abbaye de Saint-Sixtus', abv: '10.2%' },
+    stock: 3
   },
 
   // --- WHISKY (Plus d'items) ---
@@ -465,7 +480,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Lagavulin 16 ans',
     price: 85,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1514218953589-2d7d37efd2dc?w=800&q=80'], // Whisky bottle
+    images: ['/IMG_4568.JPG'], // Whisky bottle
     category: 'whisky',
     isTradeable: false,
     isRare: false,
@@ -475,14 +490,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 6h',
     seller: MOCK_USER_SOPHIE,
     description: 'Le grand classique d\'Islay. Tourbé et fumé. Étui inclus.',
-    specs: { origin: 'Écosse (Islay)', distillery: 'Lagavulin', abv: '43%' }
+    specs: { origin: 'Écosse (Islay)', distillery: 'Lagavulin', abv: '43%' },
+    stock: 6
   },
   {
     id: 'p17',
     title: 'Springbank 15 ans',
     price: 130,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=800&q=80'], // Whisky bottle
+    images: ['/IMG_4567.JPG'], // Whisky bottle
     category: 'whisky',
     isTradeable: true,
     isRare: true,
@@ -492,7 +508,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2j',
     seller: MOCK_USER_COLLECTOR,
     description: 'Difficile à trouver. Sherry casks. Un Campbeltown d\'exception.',
-    specs: { origin: 'Écosse', distillery: 'Springbank', abv: '46%' }
+    specs: { origin: 'Écosse', distillery: 'Springbank', abv: '46%' },
+    stock: 1
   },
 
   // --- RHUM (Plus d'items) ---
@@ -501,7 +518,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Foursquare 2009 ECS',
     price: 110,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80'], // Dark liquor
+    images: ['/IMG_4566.JPG'], // Dark liquor
     category: 'rhum',
     isTradeable: true,
     isRare: true,
@@ -511,14 +528,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_COLLECTOR,
     description: 'Exceptional Cask Selection. Rhum de Barbade, brut de fût.',
-    specs: { origin: 'Barbade', distillery: 'Foursquare', vintage: '2009', abv: '60%' }
+    specs: { origin: 'Barbade', distillery: 'Foursquare', vintage: '2009', abv: '60%' },
+    stock: 2
   },
   {
     id: 'p19',
     title: 'Havana Club Máximo Extra Añejo',
     price: 1500,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1616450689956-6a4a6b189736?w=800&q=80'], // Fancy bottle
+    images: ['/IMG_4577.JPG'], // Fancy bottle
     category: 'rhum',
     isTradeable: false,
     isRare: true,
@@ -528,7 +546,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 1 sem',
     seller: MOCK_USER_PRO,
     description: 'Le summum du rhum cubain. Carafe en cristal soufflé main.',
-    specs: { origin: 'Cuba', distillery: 'Havana Club', abv: '40%' }
+    specs: { origin: 'Cuba', distillery: 'Havana Club', abv: '40%' },
+    stock: 7
   },
 
   // --- GIN ---
@@ -537,7 +556,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Monkey 47 Distiller\'s Cut 2022',
     price: 140,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1613247343132-720613df938e?w=800&q=80'], // Gin bottle dark
+    images: ['/IMG_4573.JPG'], // Gin bottle dark
     category: 'gin',
     isTradeable: true,
     isRare: true,
@@ -547,14 +566,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2j',
     seller: MOCK_USER_COLLECTOR,
     description: 'Édition limitée annuelle avec l\'ingrédient secret "Gaillet Gratteron".',
-    specs: { origin: 'Allemagne', distillery: 'Black Forest Distillers', vintage: '2022', abv: '47%' }
+    specs: { origin: 'Allemagne', distillery: 'Black Forest Distillers', vintage: '2022', abv: '47%' },
+    stock: 1
   },
   {
     id: 'p21',
     title: 'Ki No Bi Kyoto Dry Gin',
     price: 55,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1607622750671-6cd9a99eabd9?w=800&q=80'], // Gin bottle
+    images: ['/IMG_4571.JPG'], // Gin bottle
     category: 'gin',
     isTradeable: false,
     isRare: false,
@@ -564,7 +584,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 5h',
     seller: MOCK_USER_PRO,
     description: 'Gin japonais artisanal avec yuzu, hinoki, thé vert gyokuro.',
-    specs: { origin: 'Japon', distillery: 'Kyoto Distillery', abv: '45.7%' }
+    specs: { origin: 'Japon', distillery: 'Kyoto Distillery', abv: '45.7%' },
+    stock: 6
   },
 
   // --- VODKA ---
@@ -573,7 +594,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Beluga Gold Line',
     price: 120,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1620608770281-9b63a948e89f?w=800&q=80'], // Vodka
+    images: ['/IMG_4575.JPG'], // Vodka
     category: 'vodka',
     isTradeable: false,
     isRare: false,
@@ -583,7 +604,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_PRO,
     description: 'Vodka premium russe. Livrée avec son petit marteau pour casser le sceau de cire.',
-    specs: { origin: 'Russie', distillery: 'Mariinsk', abv: '40%' }
+    specs: { origin: 'Russie', distillery: 'Mariinsk', abv: '40%' },
+    stock: 8
   },
 
   // --- TEQUILA / MEZCAL ---
@@ -592,7 +614,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Clase Azul Reposado',
     price: 180,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1504279577054-123b5e488136?w=800&q=80'], // Tequila
+    images: ['/IMG_4574.JPG'], // Tequila
     category: 'tequila',
     isTradeable: false,
     isRare: false,
@@ -602,14 +624,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 4h',
     seller: MOCK_USER_PRO,
     description: 'La fameuse bouteille en céramique peinte à la main. Tequila très douce et vanillée.',
-    specs: { origin: 'Mexique', distillery: 'Clase Azul', abv: '40%' }
+    specs: { origin: 'Mexique', distillery: 'Clase Azul', abv: '40%' },
+    stock: 4
   },
   {
     id: 'p24',
     title: 'Don Julio 1942',
     price: 190,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1542845812-780c1df07f79?w=800&q=80'], // Tequila nice bottle
+    images: ['/IMG_4569.JPG'], // Tequila nice bottle
     category: 'tequila',
     isTradeable: true,
     isRare: false,
@@ -619,14 +642,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2j',
     seller: MOCK_USER_COLLECTOR,
     description: 'Añejo d\'exception, vieilli 2 ans et demi.',
-    specs: { origin: 'Mexique', distillery: 'Don Julio', abv: '38%' }
+    specs: { origin: 'Mexique', distillery: 'Don Julio', abv: '38%' },
+    stock: 7
   },
   {
     id: 'p25',
     title: 'Mezcal Del Maguey Tobala',
     price: 130,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1596700549442-5ba05df263c9?w=800&q=80'], // Mezcal
+    images: ['/IMG_4565.JPG'], // Mezcal
     category: 'tequila',
     isTradeable: false,
     isRare: true,
@@ -636,7 +660,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_SOPHIE,
     description: 'Mezcal sauvage rare. Agaves Tobala d\'altitude.',
-    specs: { origin: 'Mexique (Oaxaca)', distillery: 'Del Maguey', abv: '46%' }
+    specs: { origin: 'Mexique (Oaxaca)', distillery: 'Del Maguey', abv: '46%' },
+    stock: 1
   },
 
   // --- COGNAC / ARMAGNAC / CALVADOS ---
@@ -645,7 +670,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Hennessy Paradis',
     price: 950,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1582239332560-c32490799763?w=800&q=80'], // Cognac
+    images: ['/IMG_4564.JPG'], // Cognac
     category: 'cognac',
     isTradeable: true,
     isRare: true,
@@ -655,14 +680,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 1 sem',
     seller: MOCK_USER_PRO,
     description: 'Assemblage de plus de 100 eaux-de-vie. Élégance absolue.',
-    specs: { origin: 'France', distillery: 'Hennessy', abv: '40%' }
+    specs: { origin: 'France', distillery: 'Hennessy', abv: '40%' },
+    stock: 2
   },
   {
     id: 'p27',
     title: 'Bas-Armagnac Darroze 1982',
     price: 160,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1616450689956-6a4a6b189736?w=800&q=80'], // Brandy style
+    images: ['/IMG_4576.JPG'], // Brandy style
     category: 'armagnac',
     isTradeable: false,
     isRare: true,
@@ -672,14 +698,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_COLLECTOR,
     description: 'Domaine de Rieston. Année de ma naissance, reçu en double.',
-    specs: { origin: 'France (Gascogne)', distillery: 'Francis Darroze', vintage: '1982', abv: '48%' }
+    specs: { origin: 'France (Gascogne)', distillery: 'Francis Darroze', vintage: '1982', abv: '48%' },
+    stock: 6
   },
   {
     id: 'p28',
     title: 'Calvados Christian Drouin 1990',
     price: 140,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1569937756447-e17eb326d03d?w=800&q=80'], // Amber spirit
+    images: ['/IMG_4570.JPG'], // Amber spirit
     category: 'calvados',
     isTradeable: true,
     isRare: true,
@@ -689,7 +716,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 3j',
     seller: MOCK_USER_PRO,
     description: 'Pays d\'Auge. Superbe complexité (pomme cuite, épices).',
-    specs: { origin: 'Normandie', distillery: 'Christian Drouin', vintage: '1990', abv: '42%' }
+    specs: { origin: 'Normandie', distillery: 'Christian Drouin', vintage: '1990', abv: '42%' },
+    stock: 3
   },
 
   // --- SPIRITUEUX DIVERS ---
@@ -698,7 +726,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Eau-de-vie Poire Williams Miclo',
     price: 45,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=800&q=80'], // Clear bottle
+    images: ['/IMG_4572.JPG'], // Clear bottle
     category: 'eaudevie',
     isTradeable: false,
     isRare: false,
@@ -708,14 +736,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_DISTILLERY,
     description: 'Grande Réserve. Fruit intense.',
-    specs: { origin: 'Alsace', distillery: 'G. Miclo', abv: '43%' }
+    specs: { origin: 'Alsace', distillery: 'G. Miclo', abv: '43%' },
+    stock: 9
   },
   {
     id: 'p30',
     title: 'Grand Marnier Cuvée du Centenaire',
     price: 90,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80'], // Liqueur
+    images: ['/IMG_4568.JPG'], // Liqueur
     category: 'liqueur',
     isTradeable: false,
     isRare: false,
@@ -725,14 +754,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2j',
     seller: MOCK_USER_PRO,
     description: 'Assemblage de vieux cognacs et d\'orange amère. Créé en 1927.',
-    specs: { origin: 'France', distillery: 'Grand Marnier', abv: '40%' }
+    specs: { origin: 'France', distillery: 'Grand Marnier', abv: '40%' },
+    stock: 10
   },
   {
     id: 'p31',
     title: 'Amaro Nonino Quintessentia',
     price: 35,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1589362928172-23c2a3827529?w=800&q=80'], // Dark herbal bottle
+    images: ['/IMG_4567.JPG'], // Dark herbal bottle
     category: 'digestif',
     isTradeable: false,
     isRare: false,
@@ -742,7 +772,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 5h',
     seller: MOCK_USER_SOPHIE,
     description: 'Le meilleur Amaro pour le Paper Plane cocktail.',
-    specs: { origin: 'Italie', distillery: 'Nonino', abv: '35%' }
+    specs: { origin: 'Italie', distillery: 'Nonino', abv: '35%' },
+    stock: 5
   },
 
   // --- SANS ALCOOL ---
@@ -751,7 +782,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Seedlip Garden 108',
     price: 28,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1616450689956-6a4a6b189736?w=800&q=80'], // Clear fancy bottle
+    images: ['/IMG_4566.JPG'], // Clear fancy bottle
     category: 'na',
     isTradeable: false,
     isRare: false,
@@ -761,7 +792,8 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Hier',
     seller: MOCK_USER_PRO,
     description: 'Spiritueux distillé sans alcool. Notes herbacées (pois, foin).',
-    specs: { origin: 'UK', distillery: 'Seedlip', abv: '0%' }
+    specs: { origin: 'UK', distillery: 'Seedlip', abv: '0%' },
+    stock: 8
   },
 
   // --- COFFRETS & ACCESSOIRES ---
@@ -770,7 +802,7 @@ export const MOCK_PRODUCTS: Product[] = [
     title: 'Coffret Dégustation Whisky Japonais (5x3cl)',
     price: 45,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1608270586620-248524c67de9?w=800&q=80'], // Tasting set vibe
+    images: ['/IMG_4577.JPG'], // Tasting set vibe
     category: 'coffret',
     isTradeable: true,
     isRare: false,
@@ -780,14 +812,15 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 2h',
     seller: MOCK_USER_PRO,
     description: 'Nikka, Yamazaki, Hakushu, Hibiki, Miyagikyo.',
-    specs: { origin: 'Japon' }
+    specs: { origin: 'Japon' },
+    stock: 6
   },
   {
     id: 'p34',
     title: 'Verres Zalto Universel (Boîte de 2)',
     price: 80,
     currency: '€',
-    images: ['https://images.unsplash.com/photo-1574577827827-024345173164?w=800&q=80'], // Wine glass
+    images: ['/IMG_4573.JPG'], // Wine glass
     category: 'accessoire',
     isTradeable: false,
     isRare: false,
@@ -797,7 +830,60 @@ export const MOCK_PRODUCTS: Product[] = [
     postedAt: 'Il y a 1j',
     seller: MOCK_USER_COLLECTOR,
     description: 'Verres soufflés bouche, ultra-fins. Le must pour la dégustation.',
-    specs: { origin: 'Autriche', distillery: 'Zalto' }
+    specs: { origin: 'Autriche', distillery: 'Zalto' },
+    stock: 4
+  }
+];
+
+// Mock Auctions
+export const MOCK_AUCTIONS: any[] = [
+  {
+    id: 'auction1',
+    product: MOCK_PRODUCTS[1], // Chartreuse VEP Verte
+    endTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 5 * 60 * 60 * 1000), // 2 jours et 5 heures
+    currentBid: 195,
+    bidCount: 12,
+    minBid: 200
+  },
+  {
+    id: 'auction2',
+    product: MOCK_PRODUCTS[0], // Macallan 18
+    endTime: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000), // 1 jour et 3 heures
+    currentBid: 480,
+    bidCount: 8,
+    minBid: 500
+  },
+  {
+    id: 'auction3',
+    product: MOCK_PRODUCTS[5], // Château Margaux
+    endTime: new Date(Date.now() + 5 * 60 * 60 * 1000 + 23 * 60 * 60 * 1000), // 23 heures
+    currentBid: 920,
+    bidCount: 15,
+    minBid: 950
+  },
+  {
+    id: 'auction4',
+    product: MOCK_PRODUCTS[11], // Dom Pérignon
+    endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000), // 3 jours et 12 heures
+    currentBid: 260,
+    bidCount: 6,
+    minBid: 280
+  },
+  {
+    id: 'auction5',
+    product: MOCK_PRODUCTS[17], // Springbank 15
+    endTime: new Date(Date.now() + 18 * 60 * 60 * 1000 + 45 * 60 * 1000), // 18 heures et 45 minutes
+    currentBid: 145,
+    bidCount: 9,
+    minBid: 150
+  },
+  {
+    id: 'auction6',
+    product: MOCK_PRODUCTS[25], // Hennessy Paradis
+    endTime: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000), // 4 jours et 8 heures
+    currentBid: 1020,
+    bidCount: 11,
+    minBid: 1050
   }
 ];
 

@@ -26,6 +26,7 @@ export interface Product {
   postedAt: string;
   seller: User;
   description: string;
+  stock?: number; // Stock disponible (optionnel)
   specs: {
     origin: string;
     distillery?: string;
@@ -38,6 +39,15 @@ export interface Category {
   id: string;
   label: string;
   icon?: React.ReactNode;
+}
+
+export interface Auction {
+  id: string;
+  product: Product;
+  endTime: Date; // Date de fin de l'enchère
+  currentBid: number; // Dernier prix proposé
+  bidCount: number; // Nombre d'enchères
+  minBid: number; // Prix minimum pour la prochaine enchère
 }
 
 export interface Conversation {

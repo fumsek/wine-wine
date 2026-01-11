@@ -1,7 +1,8 @@
 import React from 'react';
 import { Icons } from '../components/Icon';
 import { ProductCard } from '../components/ProductCard';
-import { CATEGORIES, MOCK_PRODUCTS } from '../constants';
+import { AuctionCard } from '../components/AuctionCard';
+import { CATEGORIES, MOCK_PRODUCTS, MOCK_AUCTIONS, MOCK_USER_PRO } from '../constants';
 import { Product } from '../types';
 
 interface HomeProps {
@@ -9,6 +10,7 @@ interface HomeProps {
   onCategoryClick: (category: string) => void;
   favoriteIds?: Set<string>;
   onFavoriteToggle?: (productId: string) => void;
+  onUserClick?: (user: any) => void;
 }
 
 // Icon mapping for categories with specific colors and optional images
@@ -107,7 +109,7 @@ const CATEGORY_ICONS: Record<string, { icon?: React.ElementType, image?: string,
   },
 };
 
-export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, favoriteIds = new Set(), onFavoriteToggle }) => {
+export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, favoriteIds = new Set(), onFavoriteToggle, onUserClick }) => {
   // Mock subset for trends - more products for horizontal scroll on desktop
   const trendingProducts = MOCK_PRODUCTS.slice(0, 8);
   const rareProducts = MOCK_PRODUCTS.filter(p => p.isRare);
@@ -201,6 +203,84 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
                 />
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Offres */}
+        <section className="mb-8 pt-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg md:text-xl text-airbnb-extra-bold text-gray-900 whitespace-nowrap">Offres en cours</h2>
+            </div>
+            <button className="text-sm text-airbnb-medium text-wine-900 hover:underline">Voir tout</button>
+          </div>
+          <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
+            {MOCK_AUCTIONS.map((auction) => (
+              <div
+                key={auction.id}
+                className="w-[260px] sm:w-[calc((100%-1rem)/2)] md:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-3rem)/4)] flex-shrink-0"
+              >
+                <AuctionCard
+                  auction={auction}
+                  onClick={() => onProductClick(auction.product)}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Cave Spotlight */}
+        <section className="mb-8 pt-4">
+          <div
+            className="relative rounded-[1.75rem] overflow-hidden bg-gray-100 cursor-pointer group"
+            onClick={() => onUserClick?.(MOCK_USER_PRO)}
+          >
+            {/* Background Image */}
+            <div className="relative h-48 md:h-64 lg:h-80 w-full">
+              <img
+                src="/detail.jpg"
+                alt="Vignoble et cave"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+              
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 md:gap-3 mb-2">
+                      <img
+                        src={MOCK_USER_PRO.avatar}
+                        alt={MOCK_USER_PRO.name}
+                        className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white/80 shadow-lg flex-shrink-0"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-white text-base md:text-xl lg:text-2xl text-airbnb-bold mb-0.5 truncate">{MOCK_USER_PRO.name}</h3>
+                        <div className="flex items-center gap-2">
+                          {MOCK_USER_PRO.isVerified && (
+                            <Icons.ShieldCheck size={12} className="md:w-[14px] md:h-[14px] text-white flex-shrink-0" fill="white" />
+                          )}
+                          <span className="text-white/90 text-xs md:text-sm text-airbnb-light truncate">{MOCK_USER_PRO.location}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-white/90 text-xs md:text-sm lg:text-base text-airbnb-medium mb-2 md:mb-3">
+                      Découvrez notre sélection de bouteilles rares et nos meilleures trouvailles
+                    </p>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onUserClick?.(MOCK_USER_PRO);
+                    }}
+                    className="px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-white text-wine-900 text-xs md:text-sm text-airbnb-medium hover:bg-gray-50 transition-colors whitespace-nowrap shadow-lg flex-shrink-0 self-start md:self-auto"
+                  >
+                    En voir plus
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
