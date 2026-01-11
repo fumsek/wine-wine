@@ -86,11 +86,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
         <div 
-          className="flex items-center gap-0.5 cursor-pointer flex-shrink-0"
+          className="flex items-center gap-1 cursor-pointer flex-shrink-0"
           onClick={() => setActiveTab('home')}
         >
-          <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-7 w-auto" />
-          <span className="text-xl tracking-tight text-airbnb-bold bg-gradient-to-r from-red-700 via-wine-700 via-wine-700 to-red-700 bg-clip-text text-transparent pr-0.5">wine wine</span>
+          <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-8 w-auto" />
+          <img src="/logo-wine-wine.png" alt="Wine Wine" className="h-4 w-auto" />
         </div>
 
         {/* Search Bar (Desktop & Mobile) */}
@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => searchQuery.length > 0 && setShowDropdown(true)}
               placeholder="Rechercher une bouteille, une distillerie, une région..." 
-              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-wine-900 focus:border-transparent transition-all text-sm"
+              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-gray-300 transition-all text-sm"
             />
             <Icons.Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
             {searchQuery.length > 0 && (
