@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wine Wine - Marketplace Spiritueux</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Airbnb Book', sans-serif;
+        background-color: #F9FAFB;
+      }
+      /* Airbnb Font Faces */
+      @font-face {
+        font-family: 'Airbnb Light';
+        src: url('/fonts/AirbnbCereal_W_Lt.otf') format('opentype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Airbnb Book';
+        src: url('/fonts/AirbnbCereal_W_Bk.otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Airbnb Medium';
+        src: url('/fonts/AirbnbCereal_W_Md.otf') format('opentype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Airbnb Bold';
+        src: url('/fonts/AirbnbCereal_W_Bd.otf') format('opentype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Airbnb Extra Bold';
+        src: url('/fonts/AirbnbCereal_W_XBd.otf') format('opentype');
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Airbnb Black';
+        src: url('/fonts/AirbnbCereal_W_Blk.otf') format('opentype');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      /* Typography Hierarchy */
+      .text-airbnb-light {
+        font-family: 'Airbnb Light', sans-serif;
+      }
+      .text-airbnb {
+        font-family: 'Airbnb Book', sans-serif;
+      }
+      .text-airbnb-medium {
+        font-family: 'Airbnb Medium', sans-serif;
+      }
+      .text-airbnb-bold {
+        font-family: 'Airbnb Bold', sans-serif;
+      }
+      .text-airbnb-extra-bold {
+        font-family: 'Airbnb Extra Bold', sans-serif;
+      }
+      .text-airbnb-black {
+        font-family: 'Airbnb Black', sans-serif;
+      }
+      .font-airbnb {
+        font-family: 'Airbnb Bold', sans-serif;
+      }
+      @keyframes bounce-click {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(0.9); }
+      }
+      .bounce-on-click:active {
+        animation: bounce-click 0.2s ease-in-out;
+      }
+      @keyframes heart-fill {
+        0% { transform: scale(0.8); opacity: 0.5; }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .heart-favorite-button:active svg {
+        animation: heart-fill 0.3s ease-out;
+      }
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              wine: {
+                50: '#fdf2f3',
+                100: '#fce7e9',
+                200: '#f8d2d6',
+                300: '#f2abb3',
+                400: '#e97a88',
+                500: '#db4e61',
+                600: '#c32f46',
+                700: '#a32236',
+                800: '#881f30',
+                900: '#721f2d', // Primary Brand Color
+                950: '#400c14',
+              },
+              amber: {
+                500: '#f59e0b', // Secondary Accent (Gold/Spirit)
+              }
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
