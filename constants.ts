@@ -70,6 +70,127 @@ export const MOCK_USER_DISTILLERY: any = {
   location: 'Lille'
 };
 
+export const MOCK_USER_CAVE_BORDEAUX: any = {
+  id: 'u5',
+  name: 'La Cave de Bordeaux',
+  avatar: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?auto=format&fit=crop&q=80&w=200',
+  isPro: true,
+  isVerified: true,
+  rating: 4.9,
+  reviewCount: 203,
+  location: 'Bordeaux, FR'
+};
+
+export const MOCK_USER_CAVE_PARIS: any = {
+  id: 'u6',
+  name: 'Cave des Princes',
+  avatar: 'https://images.unsplash.com/photo-1564760055775-d63b17a55c44?auto=format&fit=crop&q=80&w=200',
+  isPro: true,
+  isVerified: true,
+  rating: 4.8,
+  reviewCount: 156,
+  location: 'Paris, 75016'
+};
+
+export const MOCK_USER_DISTILLERIE_BOURGOGNE: any = {
+  id: 'u7',
+  name: 'Distillerie de Bourgogne',
+  avatar: 'https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?auto=format&fit=crop&q=80&w=200',
+  isPro: true,
+  isVerified: true,
+  rating: 4.6,
+  reviewCount: 89,
+  location: 'Beaune, FR'
+};
+
+export const MOCK_USER_PARTICULIER_MARC: any = {
+  id: 'u8',
+  name: 'Marc L.',
+  avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200',
+  isPro: false,
+  isVerified: true,
+  rating: 5.0,
+  reviewCount: 45,
+  location: 'Lyon, 69001'
+};
+
+export const MOCK_USER_PARTICULIER_ANNE: any = {
+  id: 'u9',
+  name: 'Anne D.',
+  avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200',
+  isPro: false,
+  isVerified: true,
+  rating: 4.9,
+  reviewCount: 32,
+  location: 'Marseille, FR'
+};
+
+export const MOCK_USER_PARTICULIER_PIERRE: any = {
+  id: 'u10',
+  name: 'Pierre M.',
+  avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+  isPro: false,
+  isVerified: false,
+  rating: 4.7,
+  reviewCount: 18,
+  location: 'Toulouse, FR'
+};
+
+export const MOCK_USER_CAVE_ALSACE: any = {
+  id: 'u11',
+  name: 'Cave d\'Alsace',
+  avatar: 'https://images.unsplash.com/photo-1564760290292-23341e4df6ec?auto=format&fit=crop&q=80&w=200',
+  isPro: true,
+  isVerified: true,
+  rating: 4.8,
+  reviewCount: 124,
+  location: 'Strasbourg, FR'
+};
+
+export const MOCK_USER_DISTILLERIE_CHAMPAGNE: any = {
+  id: 'u12',
+  name: 'Maison de Champagne',
+  avatar: 'https://images.unsplash.com/photo-1547595628-c61a29f496f0?auto=format&fit=crop&q=80&w=200',
+  isPro: true,
+  isVerified: true,
+  rating: 5.0,
+  reviewCount: 287,
+  location: 'Reims, FR'
+};
+
+export const MOCK_USER_PARTICULIER_CLAIRE: any = {
+  id: 'u13',
+  name: 'Claire R.',
+  avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200',
+  isPro: false,
+  isVerified: true,
+  rating: 4.8,
+  reviewCount: 24,
+  location: 'Nice, FR'
+};
+
+export const MOCK_USER_CAVE_LYON: any = {
+  id: 'u14',
+  name: 'Caviste de Lyon',
+  avatar: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=200',
+  isPro: true,
+  isVerified: true,
+  rating: 4.7,
+  reviewCount: 167,
+  location: 'Lyon, 69002'
+};
+
+export const MOCK_USER_PARTICULIER_LOUIS: any = {
+  id: 'u15',
+  name: 'Louis B.',
+  avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+  isPro: false,
+  isVerified: false,
+  rating: 4.5,
+  reviewCount: 12,
+  location: 'Nantes, FR'
+};
+
 export const MOCK_PRODUCTS: Product[] = [
   // --- EXISTANT (p1 à p5) ---
   {

@@ -1,20 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Icons } from './Icon';
 import { Button } from './Button';
-import { Product } from '../types';
+import { Product, User } from '../types';
 import { MOCK_PRODUCTS } from '../constants';
 
 interface HeaderProps {
     activeTab: string;
     setActiveTab: (tab: string) => void;
     onProductClick?: (product: Product) => void;
+    onUserClick?: (user: User) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProductClick }) => {
+export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProductClick, onUserClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [searchResults, setSearchResults] = useState<(Product | User & { type: 'user' })[]>([]);
+  const [productResults, setProductResults] = useState<Product[]>([]);
+  const [userResults, setUserResults] = useState<(User & { type: 'user' })[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  // Get all unique users from products
+  const allUsers = useMemo(() => {
+    const userMap = new Map<string, User>();
+    MOCK_PRODUCTS.forEach(product => {
+      if (!userMap.has(product.seller.id)) {
+        userMap.set(product.seller.id, product.seller);
+      }
+    });
+    return Array.from(userMap.values());
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -30,27 +44,41 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
   useEffect(() => {
     if (searchQuery.trim().length > 0) {
       const query = searchQuery.toLowerCase().trim();
-      const results = MOCK_PRODUCTS.filter(product => {
+      const products = MOCK_PRODUCTS.filter(product => {
         const matchesTitle = product.title.toLowerCase().includes(query);
         const matchesDistillery = product.specs.distillery?.toLowerCase().includes(query);
         const matchesLocation = product.location.toLowerCase().includes(query);
         const matchesOrigin = product.specs.origin.toLowerCase().includes(query);
-        const matchesSeller = product.seller.name.toLowerCase().includes(query);
-        return matchesTitle || matchesDistillery || matchesLocation || matchesOrigin || matchesSeller;
+        return matchesTitle || matchesDistillery || matchesLocation || matchesOrigin;
       });
-      setSearchResults(results.slice(0, 8));
+      
+      const users = allUsers.filter(user => {
+        return user.name.toLowerCase().includes(query);
+      }).map(user => ({ ...user, type: 'user' as const }));
+
+      setProductResults(products.slice(0, 6));
+      setUserResults(users.slice(0, 4));
       setShowDropdown(true);
     } else {
-      setSearchResults([]);
+      setProductResults([]);
+      setUserResults([]);
       setShowDropdown(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, allUsers]);
 
   const handleProductSelect = (product: Product) => {
     setSearchQuery('');
     setShowDropdown(false);
     if (onProductClick) {
       onProductClick(product);
+    }
+  };
+
+  const handleUserSelect = (user: User) => {
+    setSearchQuery('');
+    setShowDropdown(false);
+    if (onUserClick) {
+      onUserClick(user);
     }
   };
   return (
@@ -65,8 +93,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
           <span className="text-xl tracking-tight text-airbnb-bold bg-gradient-to-r from-red-700 via-wine-700 via-wine-700 to-red-700 bg-clip-text text-transparent pr-0.5">wine wine</span>
         </div>
 
-        {/* Desktop Search */}
-        <div className="hidden md:flex flex-1 max-w-2xl mx-4" ref={searchRef}>
+        {/* Search Bar (Desktop & Mobile) */}
+        <div className="flex flex-1 max-w-2xl mx-2 md:mx-4" ref={searchRef}>
           <div className="relative w-full">
             <input 
               type="text" 
@@ -74,15 +102,28 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => searchQuery.length > 0 && setShowDropdown(true)}
               placeholder="Rechercher une bouteille, une distillerie, une région..." 
-              className="w-full h-10 pl-10 pr-4 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-wine-900 focus:border-transparent transition-all text-sm"
+              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-wine-900 focus:border-transparent transition-all text-sm"
             />
             <Icons.Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            {searchQuery.length > 0 && (
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setShowDropdown(false);
+                }}
+                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 transition-colors p-0.5"
+                type="button"
+              >
+                <Icons.X size={18} />
+              </button>
+            )}
             
             {/* Search Dropdown */}
-            {showDropdown && searchResults.length > 0 && (
-              <div className="absolute top-12 left-0 right-0 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 max-h-[500px] overflow-y-auto">
+            {showDropdown && (productResults.length > 0 || userResults.length > 0) && (
+              <div className="fixed md:absolute top-16 md:top-12 left-0 md:left-0 right-0 md:right-0 bg-white border border-gray-200 md:rounded-2xl shadow-xl z-50 max-h-[calc(100vh-8rem)] md:max-h-[500px] overflow-y-auto">
                 <div className="p-2">
-                  {searchResults.map(product => (
+                  {/* Products */}
+                  {productResults.map(product => (
                     <button
                       key={product.id}
                       onClick={() => handleProductSelect(product)}
@@ -96,26 +137,64 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm text-airbnb-medium text-gray-900 truncate">{product.title}</h4>
                         <div className="flex items-center gap-2 mt-1">
-                          {product.specs.distillery && (
-                            <span className="text-xs text-airbnb-light text-gray-500">{product.specs.distillery}</span>
-                          )}
-                          <span className="text-xs text-airbnb-light text-gray-400">•</span>
                           <span className="text-xs text-airbnb-light text-gray-500">{product.location}</span>
+                          <span className="text-xs text-airbnb-light text-gray-400">•</span>
+                          <span className="text-xs text-airbnb-light text-gray-500">{product.seller.name}</span>
                         </div>
                         <p className="text-sm text-airbnb-bold text-wine-900 mt-1">{product.price} {product.currency}</p>
                       </div>
                     </button>
                   ))}
+
+                  {/* Separator between products and users */}
+                  {productResults.length > 0 && userResults.length > 0 && (
+                    <div className="border-t border-gray-200 my-2"></div>
+                  )}
+
+                  {/* Users */}
+                  {userResults.map(user => {
+                    const userTypeLabel = user.isPro 
+                      ? (user.name.toLowerCase().includes('cave') ? 'Cave' 
+                        : user.name.toLowerCase().includes('distillerie') || user.name.toLowerCase().includes('maison') ? 'Distillerie' 
+                        : 'Professionnel')
+                      : 'Particulier';
+                    
+                    return (
+                      <button
+                        key={user.id}
+                        onClick={() => handleUserSelect(user)}
+                        className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors text-left"
+                      >
+                        <img 
+                          src={user.avatar} 
+                          alt={user.name}
+                          className="w-16 h-16 object-cover rounded-full flex-shrink-0 border-2 border-gray-100"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-sm text-airbnb-medium text-gray-900 truncate">{user.name}</h4>
+                            {user.isVerified && <Icons.ShieldCheck size={14} className="text-green-600 flex-shrink-0" />}
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-xs text-airbnb-light text-gray-500">{userTypeLabel}</span>
+                            <span className="text-xs text-airbnb-light text-gray-400">•</span>
+                            <span className="text-xs text-airbnb-light text-gray-500">{user.location}</span>
+                          </div>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Icons.Star size={12} className="text-amber-500 fill-amber-500" />
+                            <span className="text-xs text-airbnb-medium text-gray-700">{user.rating}</span>
+                            <span className="text-xs text-airbnb-light text-gray-400">({user.reviewCount})</span>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Mobile Search Icon (Placeholder for functionality) */}
-        <button className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-            <Icons.Search size={24} />
-        </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">

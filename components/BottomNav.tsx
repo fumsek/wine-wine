@@ -30,7 +30,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
                 className="relative -top-5 flex flex-col items-center justify-center group"
               >
                 <div className="w-12 h-12 bg-wine-900/90 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white shadow-lg shadow-wine-900/30 group-hover:scale-105 transition-transform">
-                  <Icon size={20} strokeWidth={2.5} />
+                  <Icon size={20} strokeWidth={2.5} className="animate-rotate-plus-repeat" />
                 </div>
                 <span className="text-[10px] text-airbnb-medium text-gray-600 mt-1">{tab.label}</span>
               </button>

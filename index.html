@@ -92,6 +92,14 @@
       .heart-favorite-button:active svg {
         animation: heart-fill 0.3s ease-out;
       }
+      @keyframes rotate-plus {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(360deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .animate-rotate-plus-repeat {
+        animation: rotate-plus 3s ease-in-out infinite;
+      }
       /* Hide scrollbar for Chrome, Safari and Opera */
       .no-scrollbar::-webkit-scrollbar {
           display: none;
@@ -100,6 +108,88 @@
       .no-scrollbar {
           -ms-overflow-style: none;  /* IE and Edge */
           scrollbar-width: none;  /* Firefox */
+      }
+      /* Thin scrollbar for categories */
+      .thin-scrollbar::-webkit-scrollbar {
+          width: 4px;
+      }
+      .thin-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+      }
+      .thin-scrollbar::-webkit-scrollbar-thumb {
+          background-color: #d1d5db;
+          border-radius: 2px;
+      }
+      .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: #9ca3af;
+      }
+      /* Price Range Slider Styles */
+      .price-slider {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 6px;
+          background: #e5e7eb;
+          border-radius: 3px;
+          outline: none;
+          transition: background 0.2s;
+          cursor: pointer;
+      }
+      .price-slider:hover {
+          background: #d1d5db;
+      }
+      .price-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #721f2d;
+          cursor: grab;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(114, 31, 45, 0.3);
+          transition: none;
+          -webkit-transition: none;
+      }
+      .price-slider::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
+          box-shadow: 0 3px 6px rgba(114, 31, 45, 0.4);
+      }
+      .price-slider::-webkit-slider-thumb:active {
+          cursor: grabbing;
+          transform: scale(1.15);
+          box-shadow: 0 4px 8px rgba(114, 31, 45, 0.5);
+      }
+      .price-slider::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 6px;
+          cursor: pointer;
+          background: #e5e7eb;
+          border-radius: 3px;
+      }
+      .price-slider::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #721f2d;
+          cursor: grab;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(114, 31, 45, 0.3);
+          transition: none;
+      }
+      .price-slider::-moz-range-thumb:hover {
+          transform: scale(1.1);
+          box-shadow: 0 3px 6px rgba(114, 31, 45, 0.4);
+      }
+      .price-slider::-moz-range-thumb:active {
+          cursor: grabbing;
+          transform: scale(1.15);
+          box-shadow: 0 4px 8px rgba(114, 31, 45, 0.5);
+      }
+      .price-slider::-moz-range-track {
+          height: 6px;
+          background: #e5e7eb;
+          border-radius: 3px;
+          cursor: pointer;
       }
     </style>
     <script>

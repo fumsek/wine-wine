@@ -114,18 +114,6 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
 
   return (
     <div className="pb-20 md:pb-8">
-      {/* Mobile Search - Standalone (Replaces Hero) */}
-      <div className="md:hidden px-4 pt-4 pb-2 bg-white">
-          <div className="relative w-full">
-            <input 
-              type="text" 
-              placeholder="Rechercher une bouteille..." 
-              className="w-full h-12 pl-12 pr-4 rounded-full bg-gray-100 border-none text-gray-900 focus:bg-white focus:ring-2 focus:ring-wine-900 transition-all shadow-sm"
-            />
-            <Icons.Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
-          </div>
-      </div>
-
       {/* Sticky Category Floating Bubble */}
       {/* Position adjusted to sit nicely below header/mobile search */}
       <div className="sticky top-20 md:top-24 z-40 px-4 pointer-events-none mt-4 md:mt-6 mb-8">

@@ -8,7 +8,8 @@ import { CreateListing } from './pages/CreateListing';
 import { Messages } from './pages/Messages';
 import { Profile } from './pages/Profile';
 import { Favorites } from './pages/Favorites';
-import { Product } from './types';
+import { UserProfile } from './pages/UserProfile';
+import { Product, User } from './types';
 import { MOCK_PRODUCTS } from './constants';
 
 // Simple HashRouter implementation since we can't use React Router DOM in this environment easily without package install
@@ -16,6 +17,7 @@ import { MOCK_PRODUCTS } from './constants';
 const App = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
 
@@ -35,6 +37,18 @@ const App = () => {
   const handleBackToResults = () => {
     setSelectedProduct(null);
     setActiveTab('explore'); // Or go back to history if implemented
+  };
+
+  const handleUserClick = (user: User) => {
+    setSelectedUser(user);
+    setActiveTab('user-profile');
+    window.scrollTo(0, 0);
+  };
+
+  const handleBackFromUserProfile = () => {
+    setSelectedUser(null);
+    setActiveTab('home');
+    window.scrollTo(0, 0);
   };
 
   const handleFavoriteToggle = (productId: string) => {
@@ -71,6 +85,18 @@ const App = () => {
         return <Profile onNavigateToFavorites={() => setActiveTab('favorites')} />;
       case 'favorites':
         return <Favorites favoriteProducts={favoriteProducts} onProductClick={handleProductClick} onFavoriteToggle={handleFavoriteToggle} />;
+      case 'user-profile':
+        return selectedUser ? (
+          <UserProfile 
+            user={selectedUser} 
+            onBack={handleBackFromUserProfile} 
+            onProductClick={handleProductClick}
+            favoriteIds={favoriteIds}
+            onFavoriteToggle={handleFavoriteToggle}
+          />
+        ) : (
+          <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />
+        );
       default:
         return <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
     }
@@ -78,7 +104,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} onProductClick={handleProductClick} />
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} onProductClick={handleProductClick} onUserClick={handleUserClick} />
       
       <main className="min-h-[calc(100vh-4rem)]">
         {renderContent()}
