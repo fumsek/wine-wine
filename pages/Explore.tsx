@@ -23,12 +23,14 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
     setIsDragging(true);
     updatePriceFromEvent(e.clientX);
   };
 
   const handleSliderMouseMove = (e: MouseEvent) => {
     if (isDragging && sliderRef.current) {
+      e.preventDefault();
       updatePriceFromEvent(e.clientX);
     }
   };
@@ -38,17 +40,29 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
   };
 
   const handleSliderTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setIsDragging(true);
-    updatePriceFromEvent(e.touches[0].clientX);
-  };
-
-  const handleSliderTouchMove = (e: TouchEvent) => {
-    if (isDragging && sliderRef.current && e.touches.length > 0) {
+    if (e.touches.length > 0) {
       updatePriceFromEvent(e.touches[0].clientX);
     }
   };
 
-  const handleSliderTouchEnd = () => {
+  const handleSliderTouchMove = (e: React.TouchEvent<HTMLDivElement> | TouchEvent) => {
+    if (!isDragging || !sliderRef.current) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const touch = 'touches' in e ? e.touches[0] : null;
+    if (touch) {
+      updatePriceFromEvent(touch.clientX);
+    }
+  };
+
+  const handleSliderTouchEnd = (e: React.TouchEvent<HTMLDivElement> | TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setIsDragging(false);
   };
 
@@ -63,15 +77,23 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
 
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener('mousemove', handleSliderMouseMove);
-      document.addEventListener('mouseup', handleSliderMouseUp);
-      document.addEventListener('touchmove', handleSliderTouchMove);
-      document.addEventListener('touchend', handleSliderTouchEnd);
+      const handleMouseMove = (e: MouseEvent) => {
+        if (isDragging && sliderRef.current) {
+          e.preventDefault();
+          updatePriceFromEvent(e.clientX);
+        }
+      };
+
+      const handleMouseUp = () => {
+        setIsDragging(false);
+      };
+
+      document.addEventListener('mousemove', handleMouseMove, { passive: false });
+      document.addEventListener('mouseup', handleMouseUp);
+      
       return () => {
-        document.removeEventListener('mousemove', handleSliderMouseMove);
-        document.removeEventListener('mouseup', handleSliderMouseUp);
-        document.removeEventListener('touchmove', handleSliderTouchMove);
-        document.removeEventListener('touchend', handleSliderTouchEnd);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
       };
     }
   }, [isDragging]);
@@ -144,9 +166,13 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
         <h3 className="text-airbnb-bold text-gray-900 mb-2 text-sm">Prix max: {priceRange}€</h3>
         <div 
           ref={sliderRef}
-          className="relative w-full h-6 cursor-pointer select-none"
+          className="relative w-full h-6 cursor-pointer select-none touch-none"
           onMouseDown={handleSliderMouseDown}
           onTouchStart={handleSliderTouchStart}
+          onTouchMove={handleSliderTouchMove}
+          onTouchEnd={handleSliderTouchEnd}
+          onTouchCancel={handleSliderTouchEnd}
+          style={{ touchAction: 'none' }}
         >
           {/* Track background */}
           <div className="absolute top-1/2 left-0 right-0 h-1.5 bg-gray-200 rounded-full -translate-y-1/2"></div>
