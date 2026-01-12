@@ -21,7 +21,7 @@ export const Profile: React.FC<ProfileProps> = ({
   const userListings = MOCK_PRODUCTS.filter(p => p.seller.id === user.id || Math.random() > 0.5); // Mock random listings for demo
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 pb-24">
+    <div className="max-w-6xl mx-auto px-4 py-8 pb-8 md:pb-4">
       
       {/* Profile Header */}
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
@@ -102,7 +102,7 @@ export const Profile: React.FC<ProfileProps> = ({
          </div>
 
          {/* Content Area */}
-         <div className="md:col-span-3">
+         <div className="md:col-span-3 pb-24 md:pb-0">
             <div className="flex items-center justify-between mb-6 gap-4">
                 <h2 className="text-lg md:text-xl text-airbnb-bold text-gray-900 whitespace-nowrap">Mes annonces ({userListings.length})</h2>
                 <Button size="sm" variant="primary" className="text-xs md:text-sm whitespace-nowrap flex-shrink-0">Ajouter une annonce</Button>

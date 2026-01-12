@@ -7,11 +7,21 @@ interface FavoritesProps {
   favoriteProducts: Product[];
   onProductClick: (product: Product) => void;
   onFavoriteToggle: (productId: string) => void;
+  onBack?: () => void;
 }
 
-export const Favorites: React.FC<FavoritesProps> = ({ favoriteProducts, onProductClick, onFavoriteToggle }) => {
+export const Favorites: React.FC<FavoritesProps> = ({ favoriteProducts, onProductClick, onFavoriteToggle, onBack }) => {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 pb-24">
+    <div className="max-w-7xl mx-auto px-4 py-8 pb-8 md:pb-4">
+      {onBack && (
+        <button 
+          onClick={onBack} 
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 transition-colors"
+        >
+          <Icons.ArrowLeft size={18} />
+          <span className="text-airbnb-medium">Retour</span>
+        </button>
+      )}
       <div className="mb-8">
         <h1 className="text-2xl text-airbnb-extra-bold text-gray-900 mb-2">Mes favoris</h1>
         <p className="text-sm text-airbnb-light text-gray-500">{favoriteProducts.length} {favoriteProducts.length > 1 ? 'produits' : 'produit'} sauvegardé{favoriteProducts.length > 1 ? 's' : ''}</p>

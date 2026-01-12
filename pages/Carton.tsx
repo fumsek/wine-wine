@@ -33,7 +33,7 @@ export const Carton: React.FC<CartonProps> = ({ cartonQuantities, onProductClick
   const totalPrice = cartonProducts.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 pb-24 md:pb-8">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-[7.5rem] md:pb-8">
       {/* Back Button */}
       <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 transition-colors">
         <Icons.ArrowLeft size={18} />

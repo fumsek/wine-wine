@@ -110,21 +110,21 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
   };
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-2 md:gap-4 relative">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-2 md:gap-4 relative overflow-visible">
         {/* Logo - La goutte reste toujours visible */}
         <div 
-          className="flex items-center gap-1 cursor-pointer flex-shrink-0 relative z-10"
+          className="flex items-center gap-1 cursor-pointer flex-shrink-0 relative z-10 overflow-visible"
           onClick={() => {
             setActiveTab('home');
             setIsSearchExpanded(false);
             setSearchQuery('');
           }}
         >
-          <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-8 w-auto flex-shrink-0" />
+          <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-7 w-auto flex-shrink-0" />
           <img 
             src="/logo-seul-wine-wine-3.png" 
             alt="Wine Wine" 
-            className={`h-4 w-auto ${
+            className={`h-4 w-auto flex-shrink-0 ${
               isSearchExpanded ? 'hidden' : 'block'
             }`}
           />
@@ -151,10 +151,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
               onFocus={handleSearchFocus}
               onBlur={handleSearchBlur}
               placeholder="Rechercher une bouteille, une distillerie, une région..." 
-              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-gray-300 text-base md:text-sm"
+              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-gray-300 text-base md:text-sm text-gray-900"
               style={{ 
                 fontSize: '16px',
-                transition: 'background-color 0.2s ease, border-color 0.2s ease'
+                transition: 'background-color 0.2s ease, border-color 0.2s ease',
+                caretColor: '#1f2937'
               }}
             />
             <Icons.Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
@@ -171,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
             {/* Search Dropdown */}
             {showDropdown && (productResults.length > 0 || userResults.length > 0) && (
               <div className="fixed md:absolute top-16 md:top-12 left-0 md:left-0 right-0 md:right-0 bg-white border border-gray-200 md:rounded-2xl shadow-xl z-50 max-h-[calc(100vh-8rem)] md:max-h-[500px] overflow-y-auto">
-                <div className="p-2">
+                <div className="p-2 pb-24 md:pb-2">
                   {/* Products */}
                   {productResults.map(product => (
                     <button
@@ -263,7 +264,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
           </button>
           
           <button 
-            onClick={() => setActiveTab('messages')}
+            onClick={() => {
+              if (activeTab === 'messages') {
+                // If already on messages, trigger reset by toggling
+                setActiveTab('home');
+                setTimeout(() => setActiveTab('messages'), 10);
+              } else {
+                setActiveTab('messages');
+              }
+            }}
             className={`flex items-center gap-1.5 text-sm text-airbnb-medium transition-colors ${activeTab === 'messages' ? 'text-wine-900' : 'text-gray-600 hover:text-gray-900'}`}
           >
             <Icons.MessageCircle size={18} />

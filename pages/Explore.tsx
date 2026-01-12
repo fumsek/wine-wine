@@ -224,7 +224,7 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 pb-20 md:pb-8">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-8 md:pb-8">
       
       {/* Mobile Filter Toggle */}
       <div className="md:hidden flex items-center justify-between mb-4">
@@ -241,7 +241,7 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1">
+        <main className="flex-1 pb-24 md:pb-0">
             {/* Sort & Count */}
             <div className="flex items-center justify-between mb-6">
                 <span className="text-sm text-gray-500">

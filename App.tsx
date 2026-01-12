@@ -13,6 +13,9 @@ import { Carton } from './pages/Carton';
 import { Exchanges } from './pages/Exchanges';
 import { Payments } from './pages/Payments';
 import { Help } from './pages/Help';
+import { TendancesPage } from './pages/TendancesPage';
+import { OffersPage } from './pages/OffersPage';
+import { RareCollectorsPage } from './pages/RareCollectorsPage';
 import { Product, User } from './types';
 import { MOCK_PRODUCTS } from './constants';
 
@@ -25,9 +28,12 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
   const [cartonQuantities, setCartonQuantities] = useState<Map<string, number>>(new Map());
+  const [previousTab, setPreviousTab] = useState<string>('home');
 
   // Navigation handlers
   const handleProductClick = (product: Product) => {
+    // Save current tab before navigating to product detail
+    setPreviousTab(activeTab);
     setSelectedProduct(product);
     setActiveTab('product-detail');
     window.scrollTo(0, 0);
@@ -41,7 +47,7 @@ const App = () => {
 
   const handleBackToResults = () => {
     setSelectedProduct(null);
-    setActiveTab('explore'); // Or go back to history if implemented
+    setActiveTab(previousTab); // Return to the previous page
   };
 
   const handleUserClick = (user: User) => {
@@ -95,7 +101,18 @@ const App = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <Home onProductClick={handleProductClick} onCategoryClick={handleCategoryClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} onUserClick={handleUserClick} />;
+        return (
+          <Home 
+            onProductClick={handleProductClick} 
+            onCategoryClick={handleCategoryClick} 
+            favoriteIds={favoriteIds} 
+            onFavoriteToggle={handleFavoriteToggle} 
+            onUserClick={handleUserClick}
+            onNavigateToTendances={() => setActiveTab('tendances')}
+            onNavigateToOffers={() => setActiveTab('offers')}
+            onNavigateToRareCollectors={() => setActiveTab('rare-collectors')}
+          />
+        );
       case 'explore':
         return <Explore onProductClick={handleProductClick} initialCategory={selectedCategory || 'all'} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
       case 'product-detail':
@@ -114,7 +131,7 @@ const App = () => {
       case 'sell':
         return <CreateListing />;
       case 'messages':
-        return <Messages />;
+        return <Messages activeTab={activeTab} />;
       case 'profile':
         return (
           <Profile 
@@ -130,8 +147,33 @@ const App = () => {
         return <Payments onBack={() => setActiveTab('profile')} />;
       case 'help':
         return <Help onBack={() => setActiveTab('profile')} />;
+      case 'tendances':
+        return (
+          <TendancesPage 
+            onProductClick={handleProductClick}
+            onBack={() => setActiveTab('home')}
+            favoriteIds={favoriteIds}
+            onFavoriteToggle={handleFavoriteToggle}
+          />
+        );
+      case 'offers':
+        return (
+          <OffersPage 
+            onProductClick={handleProductClick}
+            onBack={() => setActiveTab('home')}
+          />
+        );
+      case 'rare-collectors':
+        return (
+          <RareCollectorsPage 
+            onProductClick={handleProductClick}
+            onBack={() => setActiveTab('home')}
+            favoriteIds={favoriteIds}
+            onFavoriteToggle={handleFavoriteToggle}
+          />
+        );
       case 'favorites':
-        return <Favorites favoriteProducts={favoriteProducts} onProductClick={handleProductClick} onFavoriteToggle={handleFavoriteToggle} />;
+        return <Favorites favoriteProducts={favoriteProducts} onProductClick={handleProductClick} onFavoriteToggle={handleFavoriteToggle} onBack={() => setActiveTab('profile')} />;
       case 'user-profile':
         return selectedUser ? (
           <UserProfile 
@@ -175,10 +217,10 @@ const App = () => {
       <footer className="hidden md:block bg-white border-t border-gray-200 py-12 mt-12">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-4 gap-8">
             <div>
-                <div className="flex items-center gap-0.5 mb-4">
-                    <img src="/logo-seul-wine-wine.png" alt="wine wine" className="h-7 w-auto" />
-                    <span className="text-xl tracking-tight text-airbnb-bold bg-gradient-to-r from-red-700 via-wine-700 via-wine-700 to-red-700 bg-clip-text text-transparent pr-0.5">wine wine</span>
-                </div>
+                  <div className="flex items-center gap-1 mb-4 overflow-visible">
+                    <img src="/logo-seul-wine-wine.png" alt="wine wine" className="h-7 w-auto flex-shrink-0" />
+                    <img src="/logo-seul-wine-wine-3.png" alt="wine wine" className="h-4 w-auto flex-shrink-0" />
+                  </div>
                 <p className="text-airbnb-light text-gray-500 text-sm">La première marketplace dédiée aux spiritueux d'exception. Achetez, vendez, échangez en toute confiance.</p>
             </div>
             <div>

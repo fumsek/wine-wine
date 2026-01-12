@@ -31,7 +31,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
   const userTypeLabel = user.isPro ? (user.name.toLowerCase().includes('cave') ? 'Cave' : user.name.toLowerCase().includes('distillerie') || user.name.toLowerCase().includes('maison') ? 'Distillerie' : 'Professionnel') : 'Particulier';
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 pb-24 md:pb-8">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-8 md:pb-8">
       {/* Back Button */}
       <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 transition-colors">
         <Icons.ArrowLeft size={18} />
@@ -85,7 +85,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
       </div>
 
       {/* User Products */}
-      <div className="mb-6">
+      <div className="mb-6 pb-24 md:pb-0">
         <div className="flex items-center gap-4 mb-4 flex-wrap">
           <h2 className="text-xl md:text-2xl text-airbnb-extra-bold text-gray-900">
             Annonces ({userProducts.length})

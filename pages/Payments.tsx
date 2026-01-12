@@ -7,7 +7,7 @@ interface PaymentsProps {
 
 export const Payments: React.FC<PaymentsProps> = ({ onBack }) => {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 pb-24">
+    <div className="max-w-6xl mx-auto px-4 py-8 pb-8 md:pb-4">
       {/* Back Button */}
       <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 transition-colors">
         <Icons.ArrowLeft size={18} />

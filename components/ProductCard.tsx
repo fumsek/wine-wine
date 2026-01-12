@@ -71,11 +71,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFa
             }}
             className="absolute top-3 right-3 z-10 transition-all heart-favorite-button"
           >
-            <Icons.Heart 
-              size={20} 
-              strokeWidth={1}
-              className={`${isFavorite ? 'fill-wine-900' : 'fill-none'} stroke-white transition-all duration-300`}
-            />
+            <div className="relative inline-flex items-center justify-center p-1">
+              {isFavorite && (
+                <div 
+                  className="absolute inset-0 bg-wine-900/25 transition-colors"
+                  style={{
+                    clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
+                    transform: 'scale(0.85)',
+                    transformOrigin: 'center'
+                  }}
+                ></div>
+              )}
+              <Icons.Heart 
+                size={28}
+                className={`md:w-5 md:h-5 relative z-10 ${isFavorite ? 'fill-wine-900' : 'fill-none'} stroke-white transition-all duration-300`}
+                strokeWidth={1}
+              />
+            </div>
           </button>
         )}
 

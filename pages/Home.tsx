@@ -11,6 +11,9 @@ interface HomeProps {
   favoriteIds?: Set<string>;
   onFavoriteToggle?: (productId: string) => void;
   onUserClick?: (user: any) => void;
+  onNavigateToTendances?: () => void;
+  onNavigateToOffers?: () => void;
+  onNavigateToRareCollectors?: () => void;
 }
 
 // Icon mapping for categories with specific colors and optional images
@@ -109,13 +112,13 @@ const CATEGORY_ICONS: Record<string, { icon?: React.ElementType, image?: string,
   },
 };
 
-export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, favoriteIds = new Set(), onFavoriteToggle, onUserClick }) => {
+export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, favoriteIds = new Set(), onFavoriteToggle, onUserClick, onNavigateToTendances, onNavigateToOffers, onNavigateToRareCollectors }) => {
   // Mock subset for trends - more products for horizontal scroll on desktop
   const trendingProducts = MOCK_PRODUCTS.slice(0, 8);
   const rareProducts = MOCK_PRODUCTS.filter(p => p.isRare);
 
   return (
-    <div className="pb-20 md:pb-8">
+    <div className="pb-24 md:pb-8">
       {/* Sticky Category Floating Bubble */}
       {/* Position adjusted to sit nicely below header/mobile search */}
       <div className="sticky top-20 md:top-24 z-40 px-4 pointer-events-none mt-4 md:mt-6 mb-3 md:mb-8">
@@ -171,7 +174,10 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
 
                  {/* Optional: Filter Button on the right */}
                  <div className="hidden md:flex pl-4 border-l border-gray-200 ml-2">
-                     <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900 text-white text-xs text-airbnb-medium hover:bg-gray-800 transition-colors whitespace-nowrap">
+                     <button 
+                       onClick={() => onCategoryClick('all')}
+                       className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900 text-white text-xs text-airbnb-medium hover:bg-gray-800 transition-colors whitespace-nowrap"
+                     >
                          <Icons.Filter size={14} />
                          Filtres
                      </button>
@@ -189,9 +195,14 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
                 <h2 className="text-lg md:text-xl text-airbnb-extra-bold text-gray-900 whitespace-nowrap">Tendances du moment</h2>
                 <Icons.TrendingUp className="text-wine-900" size={20} />
             </div>
-            <button className="text-sm text-airbnb-medium text-wine-900 hover:underline">Voir tout</button>
+            <button 
+              onClick={onNavigateToTendances}
+              className="text-sm text-airbnb-medium text-wine-900 hover:underline"
+            >
+              Voir tout
+            </button>
           </div>
-          <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
+          <div className="flex overflow-x-auto gap-4 pb-2 no-scrollbar">
             {trendingProducts.map((product, index) => (
               <div key={product.id} className="w-[260px] sm:w-[calc((100%-1rem)/2)] md:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-3rem)/4)] flex-shrink-0">
                 <ProductCard 
@@ -212,9 +223,14 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
             <div className="flex items-center gap-2">
               <h2 className="text-lg md:text-xl text-airbnb-extra-bold text-gray-900 whitespace-nowrap">Offres en cours</h2>
             </div>
-            <button className="text-sm text-airbnb-medium text-wine-900 hover:underline">Voir tout</button>
+            <button 
+              onClick={onNavigateToOffers}
+              className="text-sm text-airbnb-medium text-wine-900 hover:underline"
+            >
+              Voir tout
+            </button>
           </div>
-          <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
+          <div className="flex overflow-x-auto gap-4 pb-2 no-scrollbar">
             {MOCK_AUCTIONS.map((auction) => (
               <div
                 key={auction.id}
@@ -293,10 +309,15 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
                     Bouteilles Rares & Collectors
                 </h2>
                 <p className="text-xs md:text-sm text-airbnb-light text-amber-700 mt-1 whitespace-nowrap">Sélection d'exception vérifiée par nos experts.</p>
-                <button className="text-xs md:text-sm text-airbnb-medium text-amber-800 hover:underline mt-2">Voir la collection</button>
+                <button 
+                  onClick={onNavigateToRareCollectors}
+                  className="text-xs md:text-sm text-airbnb-medium text-amber-800 hover:underline mt-2"
+                >
+                  Voir la collection
+                </button>
             </div>
           </div>
-          <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
+          <div className="flex overflow-x-auto gap-4 pb-2 no-scrollbar">
             {rareProducts.map(product => (
               <div key={product.id} className="min-w-[260px] md:min-w-[280px]">
                 <ProductCard 

@@ -38,7 +38,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
   return (
     <div className="fixed inset-0 bg-white z-[60] overflow-y-auto md:relative md:z-auto md:bg-transparent animate-slide-up">
-      <div className="max-w-5xl mx-auto px-4 py-6 pb-32 md:pb-8">
+      <div className="max-w-5xl mx-auto px-4 py-6 pb-24 md:pb-8">
         {/* Header with Back, Share, and Favorites */}
         <div className="flex items-center justify-between mb-4">
           <button onClick={onBack} className="flex items-center text-gray-500 hover:text-wine-900 transition-colors">
@@ -163,6 +163,30 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   Paiement sécurisé via Wine Wine
                 </p>
               </div>
+
+              {/* Seller Card - Desktop: below action buttons */}
+              <div 
+                className="mt-6 pt-6 border-t border-gray-100 cursor-pointer hover:bg-gray-50 -mx-6 px-6 py-4 rounded-lg transition-colors"
+                onClick={() => onUserClick?.(product.seller)}
+              >
+                <div className="flex items-center gap-3">
+                  <img src={product.seller.avatar} alt={product.seller.name} className="w-12 h-12 rounded-full object-cover" />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-1">
+                      <h3 className="text-airbnb-medium text-gray-900">{product.seller.name}</h3>
+                      {product.seller.isVerified && <Icons.ShieldCheck size={14} className="text-green-600" />}
+                    </div>
+                    <div className="flex items-center text-xs text-gray-500 gap-2 mt-1">
+                      <span className="flex items-center text-amber-500 text-airbnb-medium">
+                        <Icons.Star size={12} fill="currentColor" className="mr-0.5"/> 
+                        {product.seller.rating} ({product.seller.reviewCount})
+                      </span>
+                      {product.seller.isPro && <span className="text-wine-900 bg-wine-50 px-2 py-0.5 rounded-full text-[10px] text-airbnb-bold border border-wine-100">PRO</span>}
+                    </div>
+                  </div>
+                  <Icons.ChevronDown className="-rotate-90 text-gray-400" size={20} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -191,9 +215,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         <div className="hidden md:block space-y-4">
           <div className="flex justify-between items-start">
             <h1 className="text-3xl text-airbnb-extra-bold text-gray-900">{product.title}</h1>
-            <button className="p-2 rounded-full hover:bg-gray-100 text-gray-500">
-              <Icons.Share2 size={20} />
-            </button>
           </div>
 
           {/* Price */}
@@ -213,7 +234,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
         {/* Seller Card - Mobile: after info, before characteristics */}
         <div 
-          className="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors"
+          className="md:hidden bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors"
           onClick={() => onUserClick?.(product.seller)}
         >
           <div className="flex items-center gap-3">
@@ -236,7 +257,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         </div>
 
         {/* Characteristics */}
-        <div className="bg-gray-50 rounded-xl p-6">
+        <div className="bg-gray-50 rounded-xl p-6 md:border md:border-gray-200">
           <h3 className="text-sm text-airbnb-bold text-gray-900 uppercase tracking-wider mb-4">Caractéristiques</h3>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
             <div>
