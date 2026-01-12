@@ -113,7 +113,7 @@ export const Carton: React.FC<CartonProps> = ({ cartonQuantities, onProductClick
           </div>
 
           {/* Total Summary */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky bottom-4">
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <span className="text-lg text-airbnb-bold text-gray-900">Total</span>
               <span className="text-2xl text-airbnb-extra-bold text-wine-900">

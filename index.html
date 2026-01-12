@@ -110,6 +110,92 @@
           transform: scale(1) translateX(0);
         }
       }
+      @keyframes smooth-rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(25deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+      .smooth-rotate-on-click.animate svg {
+        animation: smooth-rotate 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes slide-up {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      .animate-slide-up {
+        animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes share-bounce {
+        0% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-3px) scale(1.1);
+        }
+        100% {
+          transform: translateY(0) scale(1);
+        }
+      }
+      .share-icon-animated.animate svg {
+        animation: share-bounce 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes elastic-expand {
+        0% {
+          transform: scaleX(0.4);
+        }
+        40% {
+          transform: scaleX(1.08);
+        }
+        60% {
+          transform: scaleX(0.95);
+        }
+        80% {
+          transform: scaleX(1.02);
+        }
+        100% {
+          transform: scaleX(1);
+        }
+      }
+      @keyframes searchExpand {
+        from {
+          max-width: 42rem;
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
+        }
+        to {
+          max-width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+      @keyframes searchCollapse {
+        from {
+          max-width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        to {
+          max-width: 42rem;
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
+        }
+      }
+      .search-expand {
+        animation: searchExpand 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      .search-collapse {
+        animation: searchCollapse 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
       /* Hide scrollbar for Chrome, Safari and Opera */
       .no-scrollbar::-webkit-scrollbar {
           display: none;

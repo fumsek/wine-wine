@@ -118,7 +118,7 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
     <div className="pb-20 md:pb-8">
       {/* Sticky Category Floating Bubble */}
       {/* Position adjusted to sit nicely below header/mobile search */}
-      <div className="sticky top-20 md:top-24 z-40 px-4 pointer-events-none mt-4 md:mt-6 mb-8">
+      <div className="sticky top-20 md:top-24 z-40 px-4 pointer-events-none mt-4 md:mt-6 mb-3 md:mb-8">
         <div className="max-w-6xl mx-auto pointer-events-auto">
             <div className="bg-white/80 backdrop-blur-xl border border-white/50 shadow-xl shadow-gray-200/50 rounded-full py-3 px-4 md:px-6 flex items-center overflow-hidden relative">
                 
@@ -183,7 +183,7 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
       <div className="max-w-7xl mx-auto px-4">
         
         {/* Trending Section */}
-        <section className="mb-8 pt-4">
+        <section className="mb-8 pt-2 md:pt-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
                 <h2 className="text-lg md:text-xl text-airbnb-extra-bold text-gray-900 whitespace-nowrap">Tendances du moment</h2>

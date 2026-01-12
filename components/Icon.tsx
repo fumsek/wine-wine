@@ -7,7 +7,7 @@ import {
   Menu, X, Image as ImageIcon, Send, TrendingUp,
   Wine, Beer, Martini, GlassWater, Grape, Wheat, Sparkles, 
   Leaf, Gem, Gift, Briefcase, LayoutGrid, Apple, Zap, Sun,
-  Utensils, Clock
+  Utensils, Clock, Edit
 } from 'lucide-react';
 
 export const Icons = {
@@ -19,5 +19,5 @@ export const Icons = {
   Menu, X, Image: ImageIcon, Send, TrendingUp,
   Wine, Beer, Martini, GlassWater, Grape, Wheat, Sparkles,
   Leaf, Gem, Gift, Briefcase, LayoutGrid, Apple, Zap, Sun,
-  Utensils
+  Utensils, Edit
 };

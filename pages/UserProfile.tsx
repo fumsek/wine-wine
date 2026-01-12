@@ -39,47 +39,47 @@ export const UserProfile: React.FC<UserProfileProps> = ({
       </button>
 
       {/* User Header */}
-      <div className="bg-white rounded-2xl p-6 md:p-8 mb-6 shadow-sm border border-gray-100">
-        <div className="flex flex-col md:flex-row md:items-center gap-6">
+      <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
+        <div className="relative">
           <img 
             src={user.avatar} 
             alt={user.name}
-            className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-gray-100"
+            className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-md"
           />
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl md:text-3xl text-airbnb-extra-bold text-gray-900">{user.name}</h1>
-              {user.isVerified && (
-                <Icons.ShieldCheck size={24} className="text-green-600" />
-              )}
-              {user.isPro && (
-                <span className="px-3 py-1 rounded-full text-xs text-airbnb-bold text-wine-900 bg-wine-50 border border-wine-100">
-                  {userTypeLabel}
-                </span>
-              )}
-              {!user.isPro && (
-                <span className="px-3 py-1 rounded-full text-xs text-airbnb text-gray-600 bg-gray-100 border border-gray-200">
-                  Particulier
-                </span>
-              )}
+          {user.isVerified && (
+            <img src="/verified_7641727.png" alt="Vérifié" className="absolute bottom-1 right-1 w-5 h-5 md:w-6 md:h-6" />
+          )}
+        </div>
+        
+        <div className="flex-1 text-center md:text-left space-y-2">
+          <div className="flex flex-col md:flex-row items-center gap-2">
+            <h1 className="text-2xl text-airbnb-bold text-gray-900">{user.name}</h1>
+            {user.isPro && <span className="bg-wine-900 text-white text-xs px-2.5 py-0.5 rounded-full text-airbnb-bold uppercase tracking-wider">PRO</span>}
+            {user.isVerified && <span className="flex items-center text-green-700 text-xs bg-green-50 px-2.5 py-0.5 rounded-full border border-green-200"><Icons.ShieldCheck size={12} className="mr-1"/> Identité vérifiée</span>}
+          </div>
+          
+          <p className="text-gray-500 text-sm flex items-center justify-center md:justify-start gap-1">
+            <Icons.MapPin size={14} /> {user.location} • Membre depuis 2021
+          </p>
+
+          <div className="flex items-center justify-center md:justify-start gap-4 mt-2">
+            <div className="text-center md:text-left">
+              <span className="block text-xl text-airbnb-bold text-amber-500 flex items-center justify-center md:justify-start gap-1">
+                <Icons.Star size={18} fill="currentColor" className="text-amber-500" />
+                {user.rating}
+              </span>
+              <span className="text-xs text-gray-500">Note moyenne</span>
             </div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="flex items-center gap-1 text-amber-500">
-                <Icons.Star size={18} fill="currentColor" />
-                <span className="text-airbnb-medium text-gray-900">{user.rating}</span>
-                <span className="text-airbnb-light text-gray-500">({user.reviewCount} avis)</span>
-              </div>
-              <div className="flex items-center gap-1 text-gray-500">
-                <Icons.MapPin size={16} />
-                <span className="text-airbnb-light">{user.location}</span>
-              </div>
+            <div className="w-px h-8 bg-gray-200"></div>
+            <div className="text-center md:text-left">
+              <span className="block text-xl text-airbnb-bold text-gray-900">{user.reviewCount}</span>
+              <span className="text-xs text-gray-500">Ventes</span>
             </div>
-            <p className="text-airbnb-light text-gray-600">
-              {user.isPro 
-                ? `${userTypeLabel} spécialisé${userTypeLabel === 'Cave' || userTypeLabel === 'Distillerie' ? 'e' : ''} en spiritueux d'exception`
-                : 'Collectionneur passionné de spiritueux'
-              }
-            </p>
+            <div className="w-px h-8 bg-gray-200"></div>
+            <div className="text-center md:text-left">
+              <span className="block text-xl text-airbnb-bold text-gray-900">12</span>
+              <span className="text-xs text-gray-500">Échanges</span>
+            </div>
           </div>
         </div>
       </div>

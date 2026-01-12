@@ -17,7 +17,9 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
   const [productResults, setProductResults] = useState<Product[]>([]);
   const [userResults, setUserResults] = useState<(User & { type: 'user' })[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Get all unique users from products
   const allUsers = useMemo(() => {
@@ -69,6 +71,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
   const handleProductSelect = (product: Product) => {
     setSearchQuery('');
     setShowDropdown(false);
+    setIsSearchExpanded(false);
     if (onProductClick) {
       onProductClick(product);
     }
@@ -77,40 +80,87 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
   const handleUserSelect = (user: User) => {
     setSearchQuery('');
     setShowDropdown(false);
+    setIsSearchExpanded(false);
     if (onUserClick) {
       onUserClick(user);
     }
   };
+
+  const handleSearchFocus = () => {
+    setIsSearchExpanded(true);
+    if (searchQuery.length > 0) {
+      setShowDropdown(true);
+    }
+  };
+
+  const handleSearchBlur = () => {
+    // Delay to allow click on dropdown items
+    setTimeout(() => {
+      if (searchQuery.length === 0) {
+        setIsSearchExpanded(false);
+      }
+    }, 200);
+  };
+
+  const handleCloseSearch = () => {
+    setSearchQuery('');
+    setShowDropdown(false);
+    setIsSearchExpanded(false);
+    inputRef.current?.blur();
+  };
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-        {/* Logo */}
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-2 md:gap-4 relative">
+        {/* Logo - La goutte reste toujours visible */}
         <div 
-          className="flex items-center gap-1 cursor-pointer flex-shrink-0"
-          onClick={() => setActiveTab('home')}
+          className="flex items-center gap-1 cursor-pointer flex-shrink-0 relative z-10"
+          onClick={() => {
+            setActiveTab('home');
+            setIsSearchExpanded(false);
+            setSearchQuery('');
+          }}
         >
-          <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-8 w-auto" />
-          <img src="/logo-seul-wine-wine-2.png" alt="Wine Wine" className="h-4 w-auto" />
+          <img src="/logo-seul-wine-wine.png" alt="Wine Wine" className="h-8 w-auto flex-shrink-0" />
+          <img 
+            src="/logo-seul-wine-wine-3.png" 
+            alt="Wine Wine" 
+            className={`h-4 w-auto ${
+              isSearchExpanded ? 'hidden' : 'block'
+            }`}
+          />
         </div>
 
         {/* Search Bar (Desktop & Mobile) */}
-        <div className="flex flex-1 max-w-2xl mx-2 md:mx-4" ref={searchRef}>
+        <div 
+          className={`flex relative ${isSearchExpanded ? 'z-20 flex-1' : 'z-0'}`}
+          ref={searchRef}
+          style={{
+            width: isSearchExpanded ? 'auto' : 'calc(100% - 8rem)',
+            maxWidth: isSearchExpanded ? '100%' : 'calc(100vw - 10rem)',
+            marginLeft: isSearchExpanded ? '0' : '0.5rem',
+            marginRight: isSearchExpanded ? '0' : '0.5rem',
+            minWidth: isSearchExpanded ? 'auto' : '150px'
+          }}
+        >
           <div className="relative w-full">
             <input 
+              ref={inputRef}
               type="text" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => searchQuery.length > 0 && setShowDropdown(true)}
+              onFocus={handleSearchFocus}
+              onBlur={handleSearchBlur}
               placeholder="Rechercher une bouteille, une distillerie, une région..." 
-              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-gray-300 transition-all text-sm"
+              className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-gray-300 text-base md:text-sm"
+              style={{ 
+                fontSize: '16px',
+                transition: 'background-color 0.2s ease, border-color 0.2s ease'
+              }}
             />
             <Icons.Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-            {searchQuery.length > 0 && (
+            {isSearchExpanded && (
               <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setShowDropdown(false);
-                }}
+                onClick={handleCloseSearch}
                 className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 transition-colors p-0.5"
                 type="button"
               >
@@ -126,7 +176,10 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
                   {productResults.map(product => (
                     <button
                       key={product.id}
-                      onClick={() => handleProductSelect(product)}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        handleProductSelect(product);
+                      }}
                       className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors text-left"
                     >
                       <img 
@@ -159,10 +212,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
                         : 'Professionnel')
                       : 'Particulier';
                     
-                    return (
+                      return (
                       <button
                         key={user.id}
-                        onClick={() => handleUserSelect(user)}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          handleUserSelect(user);
+                        }}
                         className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors text-left"
                       >
                         <img 

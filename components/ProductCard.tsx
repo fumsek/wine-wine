@@ -1,6 +1,7 @@
 import React from 'react';
 import { Product } from '../types';
 import { Icons } from './Icon';
+import { CATEGORIES } from '../constants';
 
 interface ProductCardProps {
   product: Product;
@@ -49,10 +50,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFa
   };
   return (
     <div 
-      className={`group relative rounded-[1.75rem] shadow-sm hover:shadow-md transition-all cursor-pointer ${isFeatured ? 'p-[2px] bg-wine-900' : 'border border-gray-100 bg-white'}`}
+      className={`group relative rounded-[1.75rem] shadow-sm hover:shadow-md transition-all cursor-pointer ${isFeatured ? '' : 'border border-gray-100 bg-white'}`}
       onClick={onClick}
     >
-      <div className={`bg-white overflow-hidden h-full ${isFeatured ? 'rounded-[1.625rem]' : 'rounded-[1.75rem]'}`}>
+      <div className={`bg-white overflow-hidden h-full rounded-[1.75rem]`}>
       {/* Image Container */}
       <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
         <img 
@@ -164,28 +165,38 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, isFa
 
       {/* Content */}
       <div className="p-3">
-        <div className="flex justify-between items-start mb-1">
-          <h3 className="text-airbnb-medium text-gray-900 line-clamp-1">{product.title}</h3>
-        </div>
+        {/* Title - Mobile first, one line, adaptive size */}
+        <h3 className="text-sm md:text-base text-airbnb-medium text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis mb-2">{product.title}</h3>
         
+        {/* Product Info (Type, Date, Location) - Mobile: before price and characteristics */}
+        <div className="mb-2 md:mb-0 md:order-last">
+          {/* Type/Category */}
+          <div className="text-xs text-airbnb-medium text-gray-600 mb-1">
+            {CATEGORIES.find(cat => cat.id === product.category)?.label || product.specs.distillery || ''}
+          </div>
+          {/* Date and Location */}
+          <div className="flex items-center justify-between text-xs text-airbnb-light text-gray-500">
+            <div className="flex items-center gap-1">
+              <Icons.MapPin size={12} />
+              <span className="truncate max-w-[100px]">{product.location}</span>
+            </div>
+            <span className="text-gray-400">{product.postedAt}</span>
+          </div>
+        </div>
+
+        {/* Price - Mobile: after info, before characteristics */}
         <div className="flex items-baseline gap-1 mb-2">
-          <span className="text-lg text-airbnb-bold text-gray-900">{product.price} {product.currency}</span>
+          <span className="text-lg text-airbnb-bold text-wine-900">{product.price} {product.currency}</span>
           <span className="text-xs text-airbnb-light text-gray-500">{product.volume}</span>
         </div>
+
+        {/* Characteristics (Stock, etc.) - Mobile: after price */}
         <div className="min-h-[1.25rem] mb-2">
           {product.stock !== undefined && product.stock > 0 && (
             <div className="text-xs text-airbnb-medium text-wine-900">
               Stock : {product.stock} {product.stock > 1 ? 'bouteilles' : 'bouteille'}
             </div>
           )}
-        </div>
-
-        <div className="flex items-center justify-between text-xs text-airbnb-light text-gray-500">
-          <div className="flex items-center gap-1">
-            <Icons.MapPin size={12} />
-            <span className="truncate max-w-[100px]">{product.location}</span>
-          </div>
-          <span className="text-gray-400">{product.postedAt}</span>
         </div>
 
         {/* Seller Status */}

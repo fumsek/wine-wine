@@ -10,6 +10,9 @@ import { Profile } from './pages/Profile';
 import { Favorites } from './pages/Favorites';
 import { UserProfile } from './pages/UserProfile';
 import { Carton } from './pages/Carton';
+import { Exchanges } from './pages/Exchanges';
+import { Payments } from './pages/Payments';
+import { Help } from './pages/Help';
 import { Product, User } from './types';
 import { MOCK_PRODUCTS } from './constants';
 
@@ -97,7 +100,14 @@ const App = () => {
         return <Explore onProductClick={handleProductClick} initialCategory={selectedCategory || 'all'} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
       case 'product-detail':
         return selectedProduct ? (
-          <ProductDetail product={selectedProduct} onBack={handleBackToResults} />
+          <ProductDetail 
+            product={selectedProduct} 
+            onBack={handleBackToResults}
+            onUserClick={handleUserClick}
+            favoriteCount={Math.floor(Math.random() * 50)} // Mock favorite count
+            isFavorite={favoriteIds.has(selectedProduct.id)}
+            onFavoriteToggle={() => handleFavoriteToggle(selectedProduct.id)}
+          />
         ) : (
           <Explore onProductClick={handleProductClick} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />
         );
@@ -106,7 +116,20 @@ const App = () => {
       case 'messages':
         return <Messages />;
       case 'profile':
-        return <Profile onNavigateToFavorites={() => setActiveTab('favorites')} />;
+        return (
+          <Profile 
+            onNavigateToFavorites={() => setActiveTab('favorites')}
+            onNavigateToExchanges={() => setActiveTab('exchanges')}
+            onNavigateToPayments={() => setActiveTab('payments')}
+            onNavigateToHelp={() => setActiveTab('help')}
+          />
+        );
+      case 'exchanges':
+        return <Exchanges onBack={() => setActiveTab('profile')} />;
+      case 'payments':
+        return <Payments onBack={() => setActiveTab('profile')} />;
+      case 'help':
+        return <Help onBack={() => setActiveTab('profile')} />;
       case 'favorites':
         return <Favorites favoriteProducts={favoriteProducts} onProductClick={handleProductClick} onFavoriteToggle={handleFavoriteToggle} />;
       case 'user-profile':

@@ -6,9 +6,17 @@ import { Button } from '../components/Button';
 
 interface ProfileProps {
   onNavigateToFavorites?: () => void;
+  onNavigateToExchanges?: () => void;
+  onNavigateToPayments?: () => void;
+  onNavigateToHelp?: () => void;
 }
 
-export const Profile: React.FC<ProfileProps> = ({ onNavigateToFavorites }) => {
+export const Profile: React.FC<ProfileProps> = ({ 
+  onNavigateToFavorites,
+  onNavigateToExchanges,
+  onNavigateToPayments,
+  onNavigateToHelp
+}) => {
   const user = MOCK_USER_PRO;
   const userListings = MOCK_PRODUCTS.filter(p => p.seller.id === user.id || Math.random() > 0.5); // Mock random listings for demo
 
@@ -19,9 +27,9 @@ export const Profile: React.FC<ProfileProps> = ({ onNavigateToFavorites }) => {
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
         <div className="relative">
             <img src={user.avatar} className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-md" />
-            <div className="absolute bottom-1 right-1 bg-green-500 p-1.5 rounded-full border-2 border-white">
-                <Icons.Check size={16} className="text-white" />
-            </div>
+            {user.isVerified && (
+              <img src="/verified_7641727.png" alt="Vérifié" className="absolute bottom-1 right-1 w-5 h-5 md:w-6 md:h-6" />
+            )}
         </div>
         
         <div className="flex-1 text-center md:text-left space-y-2">
@@ -55,6 +63,7 @@ export const Profile: React.FC<ProfileProps> = ({ onNavigateToFavorites }) => {
 
         <div className="flex gap-3">
              <Button variant="outline" className="gap-2"><Icons.Settings size={18} /> Paramètres</Button>
+             <Button variant="outline" className="gap-2"><Icons.Edit size={18} /> Modifier</Button>
         </div>
       </div>
 
@@ -71,13 +80,22 @@ export const Profile: React.FC<ProfileProps> = ({ onNavigateToFavorites }) => {
                  >
                      <Icons.Heart size={20} /> Favoris
                  </button>
-                 <button className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg text-airbnb-medium whitespace-nowrap">
+                 <button 
+                   onClick={onNavigateToExchanges}
+                   className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg text-airbnb-medium whitespace-nowrap"
+                 >
                      <Icons.ArrowLeftRight size={20} /> Échanges en cours
                  </button>
-                 <button className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg text-airbnb-medium whitespace-nowrap">
+                 <button 
+                   onClick={onNavigateToPayments}
+                   className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg text-airbnb-medium whitespace-nowrap"
+                 >
                      <Icons.CreditCard size={20} /> Paiements
                  </button>
-                 <button className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg text-airbnb-medium whitespace-nowrap">
+                 <button 
+                   onClick={onNavigateToHelp}
+                   className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg text-airbnb-medium whitespace-nowrap"
+                 >
                      <Icons.HelpCircle size={20} /> Aide
                  </button>
              </nav>
@@ -85,9 +103,9 @@ export const Profile: React.FC<ProfileProps> = ({ onNavigateToFavorites }) => {
 
          {/* Content Area */}
          <div className="md:col-span-3">
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl text-airbnb-bold text-gray-900">Mes annonces actives ({userListings.length})</h2>
-                <Button size="sm" variant="primary" className="text-xs md:text-sm whitespace-nowrap">Ajouter une annonce</Button>
+            <div className="flex items-center justify-between mb-6 gap-4">
+                <h2 className="text-lg md:text-xl text-airbnb-bold text-gray-900 whitespace-nowrap">Mes annonces ({userListings.length})</h2>
+                <Button size="sm" variant="primary" className="text-xs md:text-sm whitespace-nowrap flex-shrink-0">Ajouter une annonce</Button>
             </div>
              
              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
