@@ -13,7 +13,7 @@ interface ExploreProps {
 }
 
 export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategory, favoriteIds = new Set(), onFavoriteToggle }) => {
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory || 'all');
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(initialCategory ? [initialCategory] : ['all']));
   const [priceRange, setPriceRange] = useState(1000);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
   const [exchangeOnly, setExchangeOnly] = useState(false);
@@ -22,7 +22,7 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
 
   // Filter logic mockup
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
-    if (selectedCategory !== 'all' && p.category !== selectedCategory) return false;
+    if (!selectedCategories.has('all') && !selectedCategories.has(p.category)) return false;
     if (p.price > priceRange) return false;
     if (exchangeOnly && !p.isTradeable) return false;
     if (proSellerOnly && !p.seller.isPro) return false;
@@ -35,22 +35,27 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
       {/* Category Filter */}
       <div>
         <h3 className="text-airbnb-bold text-gray-900 mb-2 text-sm">Catégorie</h3>
-        <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1 thin-scrollbar" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d1d5db transparent' }}>
-          <label className="flex items-center gap-3 cursor-pointer">
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-1.5 md:space-y-1.5 md:max-h-none md:overflow-visible">
+          <label className="flex items-center gap-2 cursor-pointer">
             <div className="relative">
               <input 
-                type="radio" 
-                name="category" 
-                checked={selectedCategory === 'all'} 
-                onChange={() => setSelectedCategory('all')}
+                type="checkbox" 
+                checked={selectedCategories.has('all')} 
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedCategories(new Set(['all']));
+                  } else {
+                    setSelectedCategories(new Set());
+                  }
+                }}
                 className="absolute opacity-0 w-0 h-0"
               />
               <div className={`w-5 h-5 rounded-full border transition-all duration-200 flex items-center justify-center ${
-                selectedCategory === 'all' 
+                selectedCategories.has('all')
                   ? 'bg-wine-900 border-white/30' 
                   : 'bg-white/90 backdrop-blur-md border-gray-400 hover:border-wine-400'
               }`}>
-                {selectedCategory === 'all' && (
+                {selectedCategories.has('all') && (
                   <Icons.Check size={11} className="text-white" strokeWidth={2.5} />
                 )}
               </div>
@@ -58,21 +63,32 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
             <span className="text-sm text-gray-700">Tout voir</span>
           </label>
           {CATEGORIES.map(cat => (
-            <label key={cat.id} className="flex items-center gap-3 cursor-pointer">
+            <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
               <div className="relative">
                 <input 
-                  type="radio" 
-                  name="category" 
-                  checked={selectedCategory === cat.id}
-                  onChange={() => setSelectedCategory(cat.id)}
+                  type="checkbox" 
+                  checked={selectedCategories.has(cat.id)}
+                  onChange={(e) => {
+                    const newSet = new Set(selectedCategories);
+                    if (e.target.checked) {
+                      newSet.delete('all');
+                      newSet.add(cat.id);
+                    } else {
+                      newSet.delete(cat.id);
+                      if (newSet.size === 0) {
+                        newSet.add('all');
+                      }
+                    }
+                    setSelectedCategories(newSet);
+                  }}
                   className="absolute opacity-0 w-0 h-0"
                 />
                 <div className={`w-5 h-5 rounded-full border transition-all duration-200 flex items-center justify-center ${
-                  selectedCategory === cat.id 
+                  selectedCategories.has(cat.id)
                     ? 'bg-wine-900 border-white/30' 
                     : 'bg-white/90 backdrop-blur-md border-gray-400 hover:border-wine-400'
                 }`}>
-                  {selectedCategory === cat.id && (
+                  {selectedCategories.has(cat.id) && (
                     <Icons.Check size={11} className="text-white" strokeWidth={2.5} />
                   )}
                 </div>
@@ -85,95 +101,29 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
 
       {/* Price Filter */}
       <div>
-        <h3 className="text-airbnb-bold text-gray-900 mb-2 text-sm">Prix max: {priceRange}€</h3>
-        <div className="relative w-full py-6 px-2">
-          <div className="relative h-2 bg-gray-200 rounded-full">
-            <div 
-              className="absolute top-0 left-0 h-2 bg-wine-900 rounded-full transition-all duration-100"
-              style={{ width: `${(priceRange / 5000) * 100}%` }}
-            ></div>
-            <input
-              type="range"
-              min="0"
-              max="5000"
-              step="50"
-              value={priceRange}
-              onChange={(e) => setPriceRange(Number(e.target.value))}
-              onInput={(e) => setPriceRange(Number((e.target as HTMLInputElement).value))}
-              className="absolute top-1/2 left-0 w-full h-6 -translate-y-1/2 opacity-0 cursor-pointer z-10"
-              style={{
-                WebkitAppearance: 'none',
-                MozAppearance: 'none',
-                appearance: 'none',
-                background: 'transparent',
-                outline: 'none',
-                margin: 0,
-                padding: 0,
-                touchAction: 'none',
-              }}
-            />
-            <div
-              className="absolute top-1/2 w-5 h-5 bg-wine-900 rounded-full border-2 border-white shadow-lg -translate-y-1/2 pointer-events-none z-20"
-              style={{ left: `calc(${(priceRange / 5000) * 100}% - 10px)` }}
-            ></div>
-          </div>
+        <h3 className="text-airbnb-bold text-gray-900 mb-3 text-sm">Prix maximum</h3>
+        
+        {/* Quick Price Buttons */}
+        <div className="grid grid-cols-3 gap-2 mb-3">
+          {[100, 250, 500, 1000, 2000, 5000].map((price) => (
+            <button
+              key={price}
+              onClick={() => setPriceRange(price)}
+              className={`px-3 py-2 rounded-lg text-xs text-airbnb-medium transition-all ${
+                priceRange === price
+                  ? 'bg-wine-900 text-white shadow-md'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {price === 5000 ? '5000€+' : `${price}€`}
+            </button>
+          ))}
         </div>
-        <div className="flex justify-between text-xs text-gray-500 mt-0.5">
-          <span>0€</span>
-          <span>5000€+</span>
-        </div>
-        <style>{`
-          input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background: transparent;
-            cursor: pointer;
-          }
-          input[type="range"]::-webkit-slider-track {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 9999px;
-          }
-          input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #721f2d;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            margin-top: -6px;
-          }
-          input[type="range"]::-moz-range-track {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 9999px;
-          }
-          input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #721f2d;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            -moz-appearance: none;
-          }
-          input[type="range"]:active::-webkit-slider-thumb {
-            transform: scale(1.1);
-          }
-          input[type="range"]:active::-moz-range-thumb {
-            transform: scale(1.1);
-          }
-        `}</style>
+
       </div>
 
       {/* Toggles */}
-      <div className="space-y-2 pb-0">
+      <div className="space-y-2 pb-0 mt-4">
         <label className="flex items-center justify-between cursor-pointer">
           <span className="text-sm text-gray-700">Échange possible</span>
           <button
