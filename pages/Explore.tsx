@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Icons } from '../components/Icon';
 import { ProductCard } from '../components/ProductCard';
 import { CATEGORIES, MOCK_PRODUCTS } from '../constants';
@@ -19,84 +19,6 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
   const [exchangeOnly, setExchangeOnly] = useState(false);
   const [proSellerOnly, setProSellerOnly] = useState(false);
   const [deliveryAvailable, setDeliveryAvailable] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const sliderRef = useRef<HTMLDivElement>(null);
-
-  const handleSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-    updatePriceFromEvent(e.clientX);
-  };
-
-  const handleSliderMouseMove = (e: MouseEvent) => {
-    if (isDragging && sliderRef.current) {
-      e.preventDefault();
-      updatePriceFromEvent(e.clientX);
-    }
-  };
-
-  const handleSliderMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleSliderTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-    if (e.touches.length > 0) {
-      updatePriceFromEvent(e.touches[0].clientX);
-    }
-  };
-
-  const handleSliderTouchMove = (e: React.TouchEvent<HTMLDivElement> | TouchEvent) => {
-    if (!isDragging || !sliderRef.current) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const touch = 'touches' in e ? e.touches[0] : null;
-    if (touch) {
-      updatePriceFromEvent(touch.clientX);
-    }
-  };
-
-  const handleSliderTouchEnd = (e: React.TouchEvent<HTMLDivElement> | TouchEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  };
-
-  const updatePriceFromEvent = (clientX: number) => {
-    if (!sliderRef.current) return;
-    const rect = sliderRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(1, x / rect.width));
-    const newPrice = Math.round(percentage * 5000);
-    setPriceRange(newPrice);
-  };
-
-  useEffect(() => {
-    if (isDragging) {
-      const handleMouseMove = (e: MouseEvent) => {
-        if (isDragging && sliderRef.current) {
-          e.preventDefault();
-          updatePriceFromEvent(e.clientX);
-        }
-      };
-
-      const handleMouseUp = () => {
-        setIsDragging(false);
-      };
-
-      document.addEventListener('mousemove', handleMouseMove, { passive: false });
-      document.addEventListener('mouseup', handleMouseUp);
-      
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [isDragging]);
 
   // Filter logic mockup
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
@@ -164,35 +86,90 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
       {/* Price Filter */}
       <div>
         <h3 className="text-airbnb-bold text-gray-900 mb-2 text-sm">Prix max: {priceRange}€</h3>
-        <div 
-          ref={sliderRef}
-          className="relative w-full h-6 cursor-pointer select-none touch-none"
-          onMouseDown={handleSliderMouseDown}
-          onTouchStart={handleSliderTouchStart}
-          onTouchMove={handleSliderTouchMove}
-          onTouchEnd={handleSliderTouchEnd}
-          onTouchCancel={handleSliderTouchEnd}
-          style={{ touchAction: 'none' }}
-        >
-          {/* Track background */}
-          <div className="absolute top-1/2 left-0 right-0 h-1.5 bg-gray-200 rounded-full -translate-y-1/2"></div>
-          {/* Filled track */}
-          <div 
-            className="absolute top-1/2 left-0 h-1.5 bg-wine-900 rounded-full -translate-y-1/2 transition-all duration-100"
-            style={{ width: `${(priceRange / 5000) * 100}%` }}
-          ></div>
-          {/* Thumb */}
-          <div
-            className={`absolute top-1/2 w-5 h-5 bg-wine-900 rounded-full border-2 border-white shadow-lg -translate-y-1/2 transition-transform ${
-              isDragging ? 'scale-110' : 'hover:scale-105'
-            }`}
-            style={{ left: `calc(${(priceRange / 5000) * 100}% - 10px)` }}
-          ></div>
+        <div className="relative w-full py-6 px-2">
+          <div className="relative h-2 bg-gray-200 rounded-full">
+            <div 
+              className="absolute top-0 left-0 h-2 bg-wine-900 rounded-full transition-all duration-100"
+              style={{ width: `${(priceRange / 5000) * 100}%` }}
+            ></div>
+            <input
+              type="range"
+              min="0"
+              max="5000"
+              step="50"
+              value={priceRange}
+              onChange={(e) => setPriceRange(Number(e.target.value))}
+              onInput={(e) => setPriceRange(Number((e.target as HTMLInputElement).value))}
+              className="absolute top-1/2 left-0 w-full h-6 -translate-y-1/2 opacity-0 cursor-pointer z-10"
+              style={{
+                WebkitAppearance: 'none',
+                MozAppearance: 'none',
+                appearance: 'none',
+                background: 'transparent',
+                outline: 'none',
+                margin: 0,
+                padding: 0,
+                touchAction: 'none',
+              }}
+            />
+            <div
+              className="absolute top-1/2 w-5 h-5 bg-wine-900 rounded-full border-2 border-white shadow-lg -translate-y-1/2 pointer-events-none z-20"
+              style={{ left: `calc(${(priceRange / 5000) * 100}% - 10px)` }}
+            ></div>
+          </div>
         </div>
         <div className="flex justify-between text-xs text-gray-500 mt-0.5">
           <span>0€</span>
           <span>5000€+</span>
         </div>
+        <style>{`
+          input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+          }
+          input[type="range"]::-webkit-slider-track {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 9999px;
+          }
+          input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #721f2d;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            margin-top: -6px;
+          }
+          input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 9999px;
+          }
+          input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #721f2d;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            -moz-appearance: none;
+          }
+          input[type="range"]:active::-webkit-slider-thumb {
+            transform: scale(1.1);
+          }
+          input[type="range"]:active::-moz-range-thumb {
+            transform: scale(1.1);
+          }
+        `}</style>
       </div>
 
       {/* Toggles */}
