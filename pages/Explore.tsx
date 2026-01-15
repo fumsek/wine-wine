@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Icons } from '../components/Icon';
 import { ProductCard } from '../components/ProductCard';
 import { CATEGORIES, MOCK_PRODUCTS } from '../constants';
@@ -21,6 +21,7 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
   const [deliveryAvailable, setDeliveryAvailable] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [showAllCategoriesMobile, setShowAllCategoriesMobile] = useState(false);
+  const [sortBy, setSortBy] = useState<'relevance' | 'price-asc' | 'price-desc' | 'newest'>('relevance');
 
   // Filter logic mockup
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
@@ -31,6 +32,23 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
     // Note: deliveryAvailable filter would require a delivery property on products
     return true;
   });
+
+  // Sort products based on selected sort option
+  const sortedProducts = useMemo(() => {
+    const products = [...filteredProducts];
+    switch (sortBy) {
+      case 'price-asc':
+        return products.sort((a, b) => a.price - b.price);
+      case 'price-desc':
+        return products.sort((a, b) => b.price - a.price);
+      case 'newest':
+        // Sort by postedAt (assuming newer posts come first in the array, or parse date)
+        return products; // For now, keep original order for newest
+      case 'relevance':
+      default:
+        return products; // Keep original order for relevance
+    }
+  }, [filteredProducts, sortBy]);
 
   const FilterSidebar = () => {
     // Sur mobile, limiter à 6 catégories. Sur desktop, limiter à 11 (avant Cognac) sauf si showAllCategories est true
@@ -288,11 +306,15 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
                 <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-500 hidden sm:inline">Trier par:</span>
                     <div className="relative">
-                        <select className="appearance-none bg-white border border-gray-300 text-gray-700 py-1.5 pl-3 pr-8 rounded-lg text-sm focus:outline-none focus:border-wine-900">
-                            <option>Pertinence</option>
-                            <option>Prix croissant</option>
-                            <option>Prix décroissant</option>
-                            <option>Nouveautés</option>
+                        <select 
+                          value={sortBy}
+                          onChange={(e) => setSortBy(e.target.value as 'relevance' | 'price-asc' | 'price-desc' | 'newest')}
+                          className="appearance-none bg-white border border-gray-300 text-gray-700 py-1.5 pl-3 pr-8 rounded-lg text-sm focus:outline-none focus:border-wine-900"
+                        >
+                            <option value="relevance">Pertinence</option>
+                            <option value="price-asc">Prix croissant</option>
+                            <option value="price-desc">Prix décroissant</option>
+                            <option value="newest">Nouveautés</option>
                         </select>
                         <Icons.ChevronDown className="absolute right-2 top-2.5 text-gray-400 pointer-events-none" size={14} />
                     </div>
@@ -301,7 +323,7 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
 
             {/* Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredProducts.map(product => (
+                {sortedProducts.map(product => (
                     <ProductCard 
                       key={product.id} 
                       product={product} 
@@ -313,7 +335,7 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
             </div>
 
             {/* Empty State */}
-            {filteredProducts.length === 0 && (
+            {sortedProducts.length === 0 && (
                 <div className="text-center py-20">
                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
                         <Icons.Search size={32} />

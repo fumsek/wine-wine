@@ -12,7 +12,7 @@ interface FavoritesProps {
 
 export const Favorites: React.FC<FavoritesProps> = ({ favoriteProducts, onProductClick, onFavoriteToggle, onBack }) => {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 pb-8 md:pb-4">
+    <div className="max-w-7xl mx-auto px-4 py-8 pb-28 md:pb-4">
       {onBack && (
         <button 
           onClick={onBack} 

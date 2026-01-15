@@ -31,6 +31,11 @@ const App = () => {
   const [cartonQuantities, setCartonQuantities] = useState<Map<string, number>>(new Map());
   const [previousTab, setPreviousTab] = useState<string>('home');
 
+  // Scroll to top when tab changes
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeTab]);
+
   // Navigation handlers
   const handleProductClick = (product: Product) => {
     // Save current tab before navigating to product detail
