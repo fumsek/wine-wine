@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Icons } from '../components/Icon';
 import { Button } from '../components/Button';
 import { CATEGORIES } from '../constants';
+import { BottleDetailsFields, BottleDetailsFormData } from '../components/BottleDetailsFields';
 
 export const CreateListing = () => {
   const [wantsToSell, setWantsToSell] = useState(true);
   const [wantsToExchange, setWantsToExchange] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [bottleDetails, setBottleDetails] = useState<BottleDetailsFormData>({});
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 pb-24 md:pb-4">
@@ -91,8 +94,12 @@ export const CreateListing = () => {
             <div className="grid grid-cols-2 gap-4">
                  <div>
                     <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Catégorie</label>
-                    <select className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900">
-                        <option>Sélectionner...</option>
+                    <select 
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900"
+                    >
+                        <option value="">Sélectionner...</option>
                         {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                     </select>
                 </div>
@@ -123,6 +130,15 @@ export const CreateListing = () => {
             <div>
                  <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Description</label>
                  <textarea rows={4} placeholder="Dites-en plus sur l'histoire de la bouteille, son stockage, etc." className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none resize-none bg-white text-gray-900"></textarea>
+            </div>
+
+            {/* Fiche bouteille */}
+            <div className="pt-4 border-t border-gray-200">
+              <BottleDetailsFields
+                value={bottleDetails}
+                onChange={setBottleDetails}
+                category={selectedCategory}
+              />
             </div>
         </div>
 

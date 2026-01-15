@@ -9,9 +9,10 @@ interface HeaderProps {
     setActiveTab: (tab: string) => void;
     onProductClick?: (product: Product) => void;
     onUserClick?: (user: User) => void;
+    onSearch?: (query: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProductClick, onUserClick }) => {
+export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProductClick, onUserClick, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<(Product | User & { type: 'user' })[]>([]);
   const [productResults, setProductResults] = useState<Product[]>([]);
@@ -108,6 +109,18 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
     setIsSearchExpanded(false);
     inputRef.current?.blur();
   };
+
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim().length > 0) {
+      e.preventDefault();
+      setShowDropdown(false);
+      setIsSearchExpanded(false);
+      if (onSearch) {
+        onSearch(searchQuery.trim());
+      }
+      inputRef.current?.blur();
+    }
+  };
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-2 md:gap-4 relative overflow-visible">
@@ -150,6 +163,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={handleSearchFocus}
               onBlur={handleSearchBlur}
+              onKeyDown={handleSearchSubmit}
               placeholder="Rechercher une bouteille, une distillerie, une région..." 
               className="w-full h-10 pl-10 pr-10 rounded-full border border-gray-300 bg-gray-50/50 focus:bg-white focus:outline-none focus:border-gray-300 text-base md:text-sm text-gray-900"
               style={{ 

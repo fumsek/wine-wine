@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Icons } from '../components/Icon';
 import { ProductCard } from '../components/ProductCard';
 import { CATEGORIES, MOCK_PRODUCTS } from '../constants';
@@ -8,12 +8,25 @@ import { Button } from '../components/Button';
 interface ExploreProps {
   onProductClick: (product: Product) => void;
   initialCategory?: string;
+  searchQuery?: string;
   favoriteIds?: Set<string>;
   onFavoriteToggle?: (productId: string) => void;
 }
 
-export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategory, favoriteIds = new Set(), onFavoriteToggle }) => {
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(initialCategory ? [initialCategory] : ['all']));
+export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategory, searchQuery = '', favoriteIds = new Set(), onFavoriteToggle }) => {
+  // Reset categories to 'all' when searching, otherwise use initialCategory
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set(searchQuery ? ['all'] : (initialCategory ? [initialCategory] : ['all']))
+  );
+  
+  // Update categories when searchQuery changes
+  useEffect(() => {
+    if (searchQuery) {
+      setSelectedCategories(new Set(['all']));
+    } else if (initialCategory) {
+      setSelectedCategories(new Set([initialCategory]));
+    }
+  }, [searchQuery, initialCategory]);
   const [priceRange, setPriceRange] = useState(1000);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
   const [exchangeOnly, setExchangeOnly] = useState(false);
@@ -25,7 +38,29 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
 
   // Filter logic mockup
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
+    // Search filter (if searchQuery is provided)
+    if (searchQuery.trim().length > 0) {
+      const query = searchQuery.toLowerCase().trim();
+      const matchesTitle = p.title.toLowerCase().includes(query);
+      const matchesDistillery = p.specs.distillery?.toLowerCase().includes(query);
+      const matchesLocation = p.location.toLowerCase().includes(query);
+      const matchesOrigin = p.specs.origin.toLowerCase().includes(query);
+      const matchesCategory = p.category.toLowerCase().includes(query);
+      const matchesGrapes = Array.isArray(p.bottleDetails?.grapes) 
+        ? p.bottleDetails.grapes.some(g => g.toLowerCase().includes(query))
+        : p.bottleDetails?.grapes?.toLowerCase().includes(query);
+      const matchesRegion = p.bottleDetails?.region?.toLowerCase().includes(query);
+      const matchesClassification = p.bottleDetails?.classification?.toLowerCase().includes(query);
+      
+      if (!(matchesTitle || matchesDistillery || matchesLocation || matchesOrigin || matchesCategory || matchesGrapes || matchesRegion || matchesClassification)) {
+        return false;
+      }
+    }
+    
+    // Category filter
     if (!selectedCategories.has('all') && !selectedCategories.has(p.category)) return false;
+    
+    // Other filters
     if (p.price > priceRange) return false;
     if (exchangeOnly && !p.isTradeable) return false;
     if (proSellerOnly && !p.seller.isPro) return false;
@@ -284,10 +319,24 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
       
       {/* Mobile Filter Toggle */}
       <div className="md:hidden flex items-center justify-between mb-4">
-        <h1 className="text-xl text-airbnb-extra-bold">Explorer</h1>
+        <h1 className="text-xl text-airbnb-extra-bold">
+          {searchQuery ? `Résultats pour "${searchQuery}"` : 'Explorer'}
+        </h1>
         <Button variant="outline" size="sm" onClick={() => setShowFiltersMobile(true)} className="gap-2">
             <Icons.Filter size={16} /> Filtres
         </Button>
+      </div>
+      
+      {/* Desktop Title */}
+      <div className="hidden md:block mb-6">
+        <h1 className="text-2xl text-airbnb-extra-bold">
+          {searchQuery ? `Résultats pour "${searchQuery}"` : 'Explorer'}
+        </h1>
+        {searchQuery && (
+          <p className="text-sm text-gray-500 mt-1">
+            {filteredProducts.length} {filteredProducts.length > 1 ? 'annonces trouvées' : 'annonce trouvée'}
+          </p>
+        )}
       </div>
 
       <div className="flex gap-8">

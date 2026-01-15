@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Icons } from '../components/Icon';
 import { Button } from '../components/Button';
 import { Product, User } from '../types';
+import { BottleDetailsSection } from '../components/BottleDetailsSection';
 
 interface ProductDetailProps {
   product: Product;
@@ -256,6 +257,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           <Icons.ChevronDown className="-rotate-90 text-gray-400" size={20} />
         </div>
 
+        {/* Description */}
+        <div>
+          <h3 className="text-lg text-airbnb-bold text-gray-900 mb-2">Description</h3>
+          <p className="text-airbnb text-gray-700 leading-relaxed whitespace-pre-line">{product.description}</p>
+        </div>
+
         {/* Characteristics */}
         <div className="bg-gray-50 rounded-xl p-6 md:border md:border-gray-200">
           <h3 className="text-sm text-airbnb-bold text-gray-900 uppercase tracking-wider mb-4">Caractéristiques</h3>
@@ -287,11 +294,18 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           </dl>
         </div>
 
-        {/* Description */}
-        <div>
-          <h3 className="text-lg text-airbnb-bold text-gray-900 mb-2">Description</h3>
-          <p className="text-airbnb text-gray-700 leading-relaxed whitespace-pre-line">{product.description}</p>
-        </div>
+        {/* Fiche bouteille */}
+        <BottleDetailsSection 
+          product={product}
+          alreadyDisplayed={{
+            distillery: !!product.specs.distillery,
+            vintage: !!product.specs.vintage,
+            volume: !!product.volume,
+            abv: !!product.specs.abv,
+            condition: !!product.condition,
+            price: true // Le prix est toujours affiché
+          }}
+        />
 
         {/* Safety Block */}
         <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
@@ -310,7 +324,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         {/* Mobile: Proposer un échange button */}
         {product.isTradeable && (
           <div className="md:hidden">
-            <Button fullWidth size="lg" className="bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center gap-2">
+            <Button 
+              fullWidth 
+              size="lg" 
+              className="!bg-orange-500 !hover:bg-orange-600 !text-white flex items-center justify-center gap-2"
+            >
               <Icons.ArrowLeftRight size={18} />
               Proposer un échange
             </Button>

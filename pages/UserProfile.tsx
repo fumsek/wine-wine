@@ -38,6 +38,20 @@ export const UserProfile: React.FC<UserProfileProps> = ({
         <span className="text-airbnb-medium">Retour</span>
       </button>
 
+      {/* Cover Photo (si pro et si présente) */}
+      {user.isPro && user.coverPhoto && (
+        <div className="mb-8 rounded-2xl overflow-hidden">
+          <div className="relative h-48 md:h-64 w-full">
+            <img 
+              src={user.coverPhoto} 
+              alt="Photo de couverture" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          </div>
+        </div>
+      )}
+
       {/* User Header */}
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
         <div className="relative">
@@ -59,8 +73,14 @@ export const UserProfile: React.FC<UserProfileProps> = ({
           </div>
           
           <p className="text-gray-500 text-sm flex items-center justify-center md:justify-start gap-1">
-            <Icons.MapPin size={14} /> {user.location} • Membre depuis 2021
+            <Icons.MapPin size={14} /> {user.location} {user.memberSince && `• Membre depuis ${user.memberSince}`}
           </p>
+
+          {user.bio && (
+            <p className="text-sm text-airbnb text-gray-700 mt-3 text-center md:text-left max-w-2xl">
+              {user.bio}
+            </p>
+          )}
 
           <div className="flex items-center justify-center md:justify-start gap-4 mt-2">
             <div className="text-center md:text-left">

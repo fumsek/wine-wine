@@ -34,7 +34,14 @@ export const MOCK_USER_PRO: any = {
   isVerified: true,
   rating: 4.8,
   reviewCount: 124,
-  location: 'Bordeaux, FR'
+  location: 'Bordeaux, FR',
+  email: 'contact@cave-chartrons.fr',
+  firstName: 'Pierre',
+  lastName: 'Martin',
+  phone: '+33 5 56 12 34 56',
+  memberSince: '2021',
+  bio: 'Cave spécialisée dans les grands vins de Bordeaux et les spiritueux d\'exception. Plus de 30 ans d\'expérience dans la sélection et la conservation des bouteilles rares.',
+  coverPhoto: '/paysage-pub-couverture.jpg'
 };
 
 export const MOCK_USER_COLLECTOR: any = {
@@ -67,7 +74,14 @@ export const MOCK_USER_DISTILLERY: any = {
   isVerified: true,
   rating: 4.7,
   reviewCount: 56,
-  location: 'Lille'
+  location: 'Lille',
+  email: 'contact@distillerie-nord.fr',
+  firstName: 'Jean',
+  lastName: 'Dupont',
+  phone: '+33 3 20 12 34 56',
+  memberSince: '2019',
+  bio: 'Distillerie artisanale spécialisée dans les eaux-de-vie du Nord de la France. Production traditionnelle et respectueuse des savoir-faire locaux.',
+  coverPhoto: '/paysage-pub-couverture.jpg'
 };
 
 export const MOCK_USER_CAVE_BORDEAUX: any = {
@@ -78,7 +92,14 @@ export const MOCK_USER_CAVE_BORDEAUX: any = {
   isVerified: true,
   rating: 4.9,
   reviewCount: 203,
-  location: 'Bordeaux, FR'
+  location: 'Bordeaux, FR',
+  email: 'contact@cave-bordeaux.fr',
+  firstName: 'Marie',
+  lastName: 'Dubois',
+  phone: '+33 5 56 78 90 12',
+  memberSince: '2018',
+  bio: 'Caviste passionné depuis 20 ans, spécialisé dans les grands crus de Bordeaux et les vins de la région. Sélection rigoureuse et conseils personnalisés.',
+  coverPhoto: '/paysage-pub-couverture.jpg'
 };
 
 export const MOCK_USER_CAVE_PARIS: any = {
@@ -89,7 +110,14 @@ export const MOCK_USER_CAVE_PARIS: any = {
   isVerified: true,
   rating: 4.8,
   reviewCount: 156,
-  location: 'Paris, 75016'
+  location: 'Paris, 75016',
+  email: 'contact@cave-princes.fr',
+  firstName: 'Thomas',
+  lastName: 'Moreau',
+  phone: '+33 1 42 34 56 78',
+  memberSince: '2020',
+  bio: 'Cave parisienne de référence pour les spiritueux d\'exception. Import direct des meilleures maisons et sélection de bouteilles rares.',
+  coverPhoto: '/paysage-pub-couverture.jpg'
 };
 
 export const MOCK_USER_DISTILLERIE_BOURGOGNE: any = {
@@ -100,7 +128,14 @@ export const MOCK_USER_DISTILLERIE_BOURGOGNE: any = {
   isVerified: true,
   rating: 4.6,
   reviewCount: 89,
-  location: 'Beaune, FR'
+  location: 'Beaune, FR',
+  email: 'contact@distillerie-bourgogne.fr',
+  firstName: 'Claire',
+  lastName: 'Bernard',
+  phone: '+33 3 80 12 34 56',
+  memberSince: '2021',
+  bio: 'Distillerie familiale en Bourgogne, créateurs d\'eaux-de-vie et de liqueurs artisanales depuis 3 générations. Respect des traditions et innovation.',
+  coverPhoto: '/paysage-pub-couverture.jpg'
 };
 
 export const MOCK_USER_PARTICULIER_MARC: any = {
@@ -209,7 +244,21 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_COLLECTOR,
     description: 'Bouteille en parfait état, étui inclus. Conservée en cave à température constante. Échange possible contre Japonais (Yamazaki 12 ou Hibiki 17 + soulte).',
     specs: { origin: 'Écosse', distillery: 'The Macallan', vintage: '2023', abv: '43%' },
-    stock: 1
+    stock: 1,
+    bottleDetails: {
+      region: 'Speyside, Écosse',
+      classification: 'Single Malt Scotch Whisky',
+      tastingNotes: 'Robe ambrée profonde. Nez complexe aux notes de fruits secs, d\'épices douces et de vanille. Bouche riche et onctueuse avec des saveurs de chocolat, de caramel et de fruits confits. Finale longue et persistante aux notes de chêne et d\'épices.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2040,
+      servingTempMin: 18,
+      servingTempMax: 20,
+      decantingMinutesMin: 0,
+      decantingMinutesMax: 0,
+      pairings: ['chocolat noir', 'fromages affinés', 'cigares', 'desserts au caramel'],
+      productionBottlesApprox: 12000,
+      taxDisplay: 'TTC'
+    }
   },
   {
     id: 'p2',
@@ -227,7 +276,21 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_PRO,
     description: 'Vieillissement Exceptionnellement Prolongé. Bouteille numérotée, coffret bois d\'origine. Facture disponible.',
     specs: { origin: 'France', distillery: 'Pères Chartreux', vintage: '2018', abv: '54%' },
-    stock: 6
+    stock: 6,
+    bottleDetails: {
+      region: 'Chartreuse, Isère',
+      classification: 'Liqueur VEP (Vieillissement Exceptionnellement Prolongé)',
+      tastingNotes: 'Liqueur emblématique des Pères Chartreux. Robe vert émeraude. Nez complexe aux 130 plantes et épices avec des notes d\'anis, de menthe, de genièvre et d\'herbes alpines. Bouche puissante et équilibrée avec une longue finale épicée et mentholée.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2045,
+      servingTempMin: 4,
+      servingTempMax: 6,
+      decantingMinutesMin: 0,
+      decantingMinutesMax: 0,
+      pairings: ['chocolat noir', 'desserts au caramel', 'café', 'cigares'],
+      productionBottlesApprox: 5000,
+      taxDisplay: 'TTC'
+    }
   },
   {
     id: 'p3',
@@ -245,7 +308,21 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_COLLECTOR,
     description: 'Une légende. Niveau parfait. Pour collectionneur averti. Remise en main propre privilégiée vu la valeur.',
     specs: { origin: 'Trinidad', distillery: 'Caroni', vintage: '1996', abv: '55%' },
-    stock: 1
+    stock: 1,
+    bottleDetails: {
+      region: 'Trinidad, Caraïbes',
+      classification: 'Single Cask Rum',
+      tastingNotes: 'Rhum de légende de la distillerie fermée Caroni. Robe ambrée foncée. Nez puissant aux notes de mélasse, de tabac, de caramel brûlé et d\'épices exotiques. Bouche intense et complexe avec des saveurs de fruits secs, de cacao et de réglisse. Finale interminable aux notes de fumée et d\'épices.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2045,
+      servingTempMin: 18,
+      servingTempMax: 20,
+      decantingMinutesMin: 0,
+      decantingMinutesMax: 0,
+      pairings: ['cigares', 'chocolat noir', 'desserts au caramel', 'fromages bleus'],
+      productionBottlesApprox: 250,
+      taxDisplay: 'TTC'
+    }
   },
   {
     id: 'p4',
@@ -301,7 +378,23 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_PRO,
     description: 'Premier Grand Cru Classé. Millésime exceptionnel. Conservé en cave professionnelle.',
     specs: { origin: 'Bordeaux, France', distillery: 'Château Margaux', vintage: '2015' },
-    stock: 3
+    stock: 3,
+    bottleDetails: {
+      grapes: ['Cabernet Sauvignon', 'Merlot', 'Petit Verdot', 'Cabernet Franc'],
+      region: 'Margaux, Médoc',
+      classification: 'Premier Grand Cru Classé',
+      tastingNotes: 'Millésime exceptionnel, l\'un des meilleurs de la décennie. Robe pourpre intense. Nez complexe aux arômes de fruits noirs, de cèdre et de tabac. Bouche puissante et élégante avec une structure tannique remarquable. Finale interminable. Vin de garde exceptionnel.',
+      drinkWindowStart: 2025,
+      drinkWindowEnd: 2050,
+      servingTempMin: 16,
+      servingTempMax: 18,
+      decantingMinutesMin: 60,
+      decantingMinutesMax: 120,
+      pairings: ['agneau rôti', 'bœuf en croûte', 'fromages affinés', 'chocolat noir'],
+      productionBottlesApprox: 150000,
+      allergens: { sulfites: true },
+      taxDisplay: 'TTC'
+    }
   },
   {
     id: 'p7',
@@ -319,7 +412,23 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_SOPHIE,
     description: 'Une des trois "La" de Guigal. Parfait état.',
     specs: { origin: 'Vallée du Rhône', vintage: '2012' },
-    stock: 1
+    stock: 1,
+    bottleDetails: {
+      grapes: ['Syrah (89%)', 'Viognier (11%)'],
+      region: 'Côte-Rôtie, Vallée du Rhône',
+      classification: 'AOP Côte-Rôtie',
+      tastingNotes: 'La plus féminine des trois "La". Robe rubis profond. Nez floral et épicé aux notes de violette, de framboise et de poivre. Bouche élégante et soyeuse avec une finale persistante aux notes de fruits rouges et d\'épices douces.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2035,
+      servingTempMin: 16,
+      servingTempMax: 17,
+      decantingMinutesMin: 45,
+      decantingMinutesMax: 90,
+      pairings: ['gigot d\'agneau', 'volaille rôtie', 'fromages de chèvre', 'charcuterie'],
+      productionBottlesApprox: 4000,
+      allergens: { sulfites: true },
+      taxDisplay: 'TTC'
+    }
   },
 
   // --- VINS BLANCS ---
@@ -339,7 +448,22 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_PRO,
     description: 'Domaine Leflaive. Vin d\'une grande finesse. Idéal garde ou dégustation.',
     specs: { origin: 'Bourgogne', vintage: '2020' },
-    stock: 4
+    stock: 4,
+    bottleDetails: {
+      grapes: 'Chardonnay (100%)',
+      region: 'Puligny-Montrachet, Côte de Beaune',
+      classification: 'AOP Puligny-Montrachet 1er Cru',
+      tastingNotes: 'Robe jaune pâle aux reflets verts. Nez minéral et floral aux notes de citron, de pamplemousse et de fleur blanche. Bouche élégante et racée avec une belle acidité et une finale saline caractéristique des grands Chardonnay de Bourgogne.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2035,
+      servingTempMin: 12,
+      servingTempMax: 14,
+      decantingMinutesMin: 0,
+      decantingMinutesMax: 0,
+      pairings: ['poissons grillés', 'fruits de mer', 'fromages de chèvre', 'volaille à la crème'],
+      allergens: { sulfites: true },
+      taxDisplay: 'TTC'
+    }
   },
   {
     id: 'p9',
@@ -357,7 +481,22 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_COLLECTOR,
     description: 'Le must du Viognier. Je vends car j\'en ai trop acheté.',
     specs: { origin: 'Vallée du Rhône', vintage: '2021' },
-    stock: 5
+    stock: 5,
+    bottleDetails: {
+      grapes: 'Viognier (100%)',
+      region: 'Condrieu, Vallée du Rhône',
+      classification: 'AOP Condrieu',
+      tastingNotes: 'Robe dorée intense. Nez explosif aux notes de pêche, d\'abricot, de violette et de miel. Bouche opulente et généreuse avec une belle longueur en bouche. Le meilleur Condrieu de la maison Guigal.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2030,
+      servingTempMin: 12,
+      servingTempMax: 14,
+      decantingMinutesMin: 0,
+      decantingMinutesMax: 0,
+      pairings: ['foie gras', 'poissons en sauce', 'fromages de chèvre', 'fruits de mer'],
+      allergens: { sulfites: true },
+      taxDisplay: 'TTC'
+    }
   },
 
   // --- VINS ROSÉS ---
@@ -415,7 +554,23 @@ export const MOCK_PRODUCTS: Product[] = [
     seller: MOCK_USER_PRO,
     description: 'Coffret original. Conservation parfaite en cave crayère.',
     specs: { origin: 'Champagne', distillery: 'Moët & Chandon', vintage: '2012' },
-    stock: 2
+    stock: 2,
+    bottleDetails: {
+      grapes: ['Chardonnay (50%)', 'Pinot Noir (50%)'],
+      region: 'Champagne, Vallée de la Marne',
+      classification: 'AOP Champagne',
+      tastingNotes: 'Millésime 2012, année solaire exceptionnelle. Bulles fines et persistantes. Nez complexe aux notes de fruits blancs, de brioche et de fleurs blanches. Bouche équilibrée et élégante avec une belle minéralité. Finale longue et raffinée.',
+      drinkWindowStart: 'maintenant',
+      drinkWindowEnd: 2040,
+      servingTempMin: 8,
+      servingTempMax: 10,
+      decantingMinutesMin: 0,
+      decantingMinutesMax: 0,
+      pairings: ['huîtres', 'caviar', 'foie gras', 'desserts aux fruits'],
+      productionBottlesApprox: 5000000,
+      allergens: { sulfites: true },
+      taxDisplay: 'TTC'
+    }
   },
   {
     id: 'p13',

@@ -9,6 +9,14 @@ export interface User {
   rating: number;
   reviewCount: number;
   location: string;
+  // Informations supplémentaires
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  bio?: string;
+  coverPhoto?: string;
+  memberSince?: string; // Date d'inscription (ex: "2021")
+  phone?: string;
 }
 
 export interface Product {
@@ -32,6 +40,26 @@ export interface Product {
     distillery?: string;
     vintage?: string; // Millésime
     abv?: string; // Alcohol by volume
+  };
+  // Fiche bouteille - champs optionnels
+  bottleDetails?: {
+    grapes?: string | string[]; // Cépage(s) ou ingrédients
+    region?: string; // Région (ex: "Vallée du Rhône")
+    classification?: string; // Classification/appellation (ex: "AOP", "IGP", "Single Malt")
+    tastingNotes?: string; // Notes de dégustation
+    drinkWindowStart?: number | string; // Fenêtre de consommation début (ex: 2026 ou "maintenant")
+    drinkWindowEnd?: number | string; // Fenêtre de consommation fin (ex: 2029)
+    servingTempMin?: number; // Température de service min (°C)
+    servingTempMax?: number; // Température de service max (°C)
+    decantingMinutesMin?: number; // Carafage min (minutes)
+    decantingMinutesMax?: number; // Carafage max (minutes)
+    pairings?: string[]; // Accords mets (ex: ["viandes grillées", "plats mijotés"])
+    productionBottlesApprox?: number; // Production approximative
+    allergens?: {
+      sulfites?: boolean;
+      other?: string[];
+    };
+    taxDisplay?: 'TTC' | 'HT' | null; // Affichage TTC/HT (sans dupliquer le prix)
   };
 }
 

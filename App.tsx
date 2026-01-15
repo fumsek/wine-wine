@@ -7,12 +7,8 @@ import { ProductDetail } from './pages/ProductDetail';
 import { CreateListing } from './pages/CreateListing';
 import { Messages } from './pages/Messages';
 import { Profile } from './pages/Profile';
-import { Favorites } from './pages/Favorites';
 import { UserProfile } from './pages/UserProfile';
 import { Carton } from './pages/Carton';
-import { Exchanges } from './pages/Exchanges';
-import { Payments } from './pages/Payments';
-import { Help } from './pages/Help';
 import { TendancesPage } from './pages/TendancesPage';
 import { OffersPage } from './pages/OffersPage';
 import { RareCollectorsPage } from './pages/RareCollectorsPage';
@@ -27,6 +23,7 @@ const App = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
   const [cartonQuantities, setCartonQuantities] = useState<Map<string, number>>(new Map());
   const [previousTab, setPreviousTab] = useState<string>('home');
@@ -47,6 +44,14 @@ const App = () => {
 
   const handleCategoryClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
+    setSearchQuery(''); // Clear search when selecting category
+    setActiveTab('explore');
+    window.scrollTo(0, 0);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setSelectedCategory(null); // Clear category filter when searching
     setActiveTab('explore');
     window.scrollTo(0, 0);
   };
@@ -121,7 +126,7 @@ const App = () => {
           />
         );
       case 'explore':
-        return <Explore onProductClick={handleProductClick} initialCategory={selectedCategory || 'all'} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
+        return <Explore onProductClick={handleProductClick} initialCategory={selectedCategory || 'all'} searchQuery={searchQuery} favoriteIds={favoriteIds} onFavoriteToggle={handleFavoriteToggle} />;
       case 'product-detail':
         return selectedProduct ? (
           <ProductDetail 
@@ -142,19 +147,12 @@ const App = () => {
       case 'profile':
         return (
           <Profile 
-            onNavigateToFavorites={() => setActiveTab('favorites')}
-            onNavigateToExchanges={() => setActiveTab('exchanges')}
-            onNavigateToPayments={() => setActiveTab('payments')}
-            onNavigateToHelp={() => setActiveTab('help')}
+            favoriteProducts={favoriteProducts}
+            onProductClick={handleProductClick}
+            onFavoriteToggle={handleFavoriteToggle}
             onNavigateToCreateListing={() => setActiveTab('sell')}
           />
         );
-      case 'exchanges':
-        return <Exchanges onBack={() => setActiveTab('profile')} />;
-      case 'payments':
-        return <Payments onBack={() => setActiveTab('profile')} />;
-      case 'help':
-        return <Help onBack={() => setActiveTab('profile')} />;
       case 'tendances':
         return (
           <TendancesPage 
@@ -190,8 +188,6 @@ const App = () => {
             }}
           />
         );
-      case 'favorites':
-        return <Favorites favoriteProducts={favoriteProducts} onProductClick={handleProductClick} onFavoriteToggle={handleFavoriteToggle} onBack={() => setActiveTab('profile')} />;
       case 'user-profile':
         return selectedUser ? (
           <UserProfile 
@@ -223,7 +219,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} onProductClick={handleProductClick} onUserClick={handleUserClick} />
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} onProductClick={handleProductClick} onUserClick={handleUserClick} onSearch={handleSearch} />
       
       <main className="min-h-[calc(100vh-4rem)]">
         {renderContent()}
