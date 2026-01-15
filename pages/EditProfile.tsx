@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icons } from '../components/Icon';
 import { Button } from '../components/Button';
 import { User } from '../types';
@@ -10,6 +10,9 @@ interface EditProfileProps {
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({ user, onBack, onSave }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [name, setName] = useState(user.name);
   const [firstName, setFirstName] = useState(user.firstName || '');
   const [lastName, setLastName] = useState(user.lastName || '');
@@ -265,7 +268,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({ user, onBack, onSave }
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4">
+        <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4 pb-8 md:pb-0">
           <Button variant="outline" onClick={onBack}>
             Annuler
           </Button>

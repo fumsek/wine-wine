@@ -10,6 +10,8 @@ import { Payments } from './Payments';
 import { Help } from './Help';
 import { Settings } from './Settings';
 import { EditProfile } from './EditProfile';
+import { EditListing } from './EditListing';
+import { RemoveListingModal } from '../components/RemoveListingModal';
 
 interface ProfileProps {
   favoriteProducts?: Product[];
@@ -19,7 +21,7 @@ interface ProfileProps {
   onLogout?: () => void;
 }
 
-type ActiveSection = 'listings' | 'favorites' | 'exchanges' | 'payments' | 'help' | 'settings' | 'edit';
+type ActiveSection = 'listings' | 'favorites' | 'exchanges' | 'payments' | 'help' | 'settings' | 'edit' | 'editListing';
 
 export const Profile: React.FC<ProfileProps> = ({ 
   favoriteProducts = [],
@@ -30,14 +32,46 @@ export const Profile: React.FC<ProfileProps> = ({
 }) => {
   const [activeSection, setActiveSection] = useState<ActiveSection>('listings');
   const [user, setUser] = useState<User>(MOCK_USER_PRO);
-  const userListings = MOCK_PRODUCTS.filter(p => p.seller.id === user.id || Math.random() > 0.5); // Mock random listings for demo
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [removingProduct, setRemovingProduct] = useState<Product | null>(null);
+  const [userListings, setUserListings] = useState<Product[]>(
+    MOCK_PRODUCTS.filter(p => p.seller.id === user.id || Math.random() > 0.5)
+  );
 
   const handleSaveProfile = (updatedUser: Partial<User>) => {
     setUser({ ...user, ...updatedUser });
     setActiveSection('listings');
   };
 
-  // Si on est sur Settings ou Edit, afficher directement ces pages
+  const handleEditListing = (product: Product) => {
+    setEditingProduct(product);
+    setActiveSection('editListing');
+  };
+
+  const handleSaveListing = (updatedProduct: Partial<Product>) => {
+    if (editingProduct) {
+      setUserListings(userListings.map(p => 
+        p.id === editingProduct.id ? { ...p, ...updatedProduct } : p
+      ));
+    }
+    setEditingProduct(null);
+    setActiveSection('listings');
+  };
+
+  const handleRemoveListing = (product: Product) => {
+    setRemovingProduct(product);
+  };
+
+  const handleConfirmRemove = (reason?: string) => {
+    if (removingProduct) {
+      // Ici, on ferait l'appel API pour retirer l'annonce
+      console.log('Retrait de l\'annonce:', removingProduct.id, 'Raison:', reason);
+      setUserListings(userListings.filter(p => p.id !== removingProduct.id));
+      setRemovingProduct(null);
+    }
+  };
+
+  // Si on est sur Settings, Edit ou EditListing, afficher directement ces pages
   if (activeSection === 'settings') {
     return (
       <Settings 
@@ -54,6 +88,19 @@ export const Profile: React.FC<ProfileProps> = ({
         user={user} 
         onBack={() => setActiveSection('listings')}
         onSave={handleSaveProfile}
+      />
+    );
+  }
+
+  if (activeSection === 'editListing' && editingProduct) {
+    return (
+      <EditListing
+        product={editingProduct}
+        onBack={() => {
+          setEditingProduct(null);
+          setActiveSection('listings');
+        }}
+        onSave={handleSaveListing}
       />
     );
   }
@@ -225,8 +272,23 @@ export const Profile: React.FC<ProfileProps> = ({
                          <div key={p.id} className="relative">
                              <ProductCard product={p} onClick={() => onProductClick?.(p)} />
                              <div className="mt-2 flex gap-2">
-                                 <Button size="sm" variant="outline" fullWidth>Modifier</Button>
-                                 <Button size="sm" variant="outline" fullWidth className="text-red-600 hover:bg-red-50 border-red-200">Retirer</Button>
+                                 <Button 
+                                   size="sm" 
+                                   variant="outline" 
+                                   fullWidth
+                                   onClick={() => handleEditListing(p)}
+                                 >
+                                   Modifier
+                                 </Button>
+                                 <Button 
+                                   size="sm" 
+                                   variant="outline" 
+                                   fullWidth 
+                                   className="text-red-600 hover:bg-red-50 border-red-200"
+                                   onClick={() => handleRemoveListing(p)}
+                                 >
+                                   Retirer
+                                 </Button>
                              </div>
                          </div>
                      ))}
@@ -353,6 +415,14 @@ export const Profile: React.FC<ProfileProps> = ({
             )}
          </div>
       </div>
+
+      {/* Modal de retrait d'annonce */}
+      <RemoveListingModal
+        isOpen={!!removingProduct}
+        onClose={() => setRemovingProduct(null)}
+        onConfirm={handleConfirmRemove}
+        productTitle={removingProduct?.title}
+      />
     </div>
   );
 };

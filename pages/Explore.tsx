@@ -261,14 +261,20 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
 
       {/* Toggles */}
       <div className="space-y-2 pb-0 mt-4">
-        <label className="flex items-center justify-between cursor-pointer">
+        <label 
+          className="flex items-center justify-between cursor-pointer py-2"
+          onClick={() => setExchangeOnly(!exchangeOnly)}
+        >
           <span className="text-sm text-gray-700">Échange possible</span>
           <button
             type="button"
-            onClick={() => setExchangeOnly(!exchangeOnly)}
             className={`relative inline-block w-10 h-6 rounded-full transition-colors duration-200 ${
               exchangeOnly ? 'bg-wine-900' : 'bg-gray-300'
             }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setExchangeOnly(!exchangeOnly);
+            }}
           >
             <span
               className={`absolute top-1 left-1 block w-4 h-4 bg-white rounded-full transition-transform duration-200 ${
@@ -277,14 +283,20 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
             />
           </button>
         </label>
-        <label className="flex items-center justify-between cursor-pointer">
+        <label 
+          className="flex items-center justify-between cursor-pointer py-2"
+          onClick={() => setProSellerOnly(!proSellerOnly)}
+        >
           <span className="text-sm text-gray-700">Vendeur Pro</span>
           <button
             type="button"
-            onClick={() => setProSellerOnly(!proSellerOnly)}
             className={`relative inline-block w-10 h-6 rounded-full transition-colors duration-200 ${
               proSellerOnly ? 'bg-wine-900' : 'bg-gray-300'
             }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setProSellerOnly(!proSellerOnly);
+            }}
           >
             <span
               className={`absolute top-1 left-1 block w-4 h-4 bg-white rounded-full transition-transform duration-200 ${
@@ -293,14 +305,20 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
             />
           </button>
         </label>
-        <label className="flex items-center justify-between cursor-pointer">
+        <label 
+          className="flex items-center justify-between cursor-pointer py-2"
+          onClick={() => setDeliveryAvailable(!deliveryAvailable)}
+        >
           <span className="text-sm text-gray-700">Livraison disponible</span>
           <button
             type="button"
-            onClick={() => setDeliveryAvailable(!deliveryAvailable)}
             className={`relative inline-block w-10 h-6 rounded-full transition-colors duration-200 ${
               deliveryAvailable ? 'bg-wine-900' : 'bg-gray-300'
             }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setDeliveryAvailable(!deliveryAvailable);
+            }}
           >
             <span
               className={`absolute top-1 left-1 block w-4 h-4 bg-white rounded-full transition-transform duration-200 ${

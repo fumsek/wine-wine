@@ -3,16 +3,51 @@ import { Icons } from '../components/Icon';
 import { Button } from '../components/Button';
 import { CATEGORIES } from '../constants';
 import { BottleDetailsFields, BottleDetailsFormData } from '../components/BottleDetailsFields';
+import { Product } from '../types';
 
-export const CreateListing = () => {
+interface EditListingProps {
+  product: Product;
+  onBack: () => void;
+  onSave?: (updatedProduct: Partial<Product>) => void;
+}
+
+export const EditListing: React.FC<EditListingProps> = ({ product, onBack, onSave }) => {
+  const [wantsToSell, setWantsToSell] = useState(!!product.price);
+  const [wantsToExchange, setWantsToExchange] = useState(!product.price);
+  const [selectedCategory, setSelectedCategory] = useState<string>(product.category || '');
+  const [title, setTitle] = useState(product.title);
+  const [price, setPrice] = useState(product.price?.toString() || '');
+  const [condition, setCondition] = useState(product.condition || 'Scellé / Neuf');
+  const [description, setDescription] = useState(product.description || '');
+  const [stock, setStock] = useState(product.stock?.toString() || '');
+  const [images, setImages] = useState<string[]>(product.images || []);
+  const [bottleDetails, setBottleDetails] = useState<BottleDetailsFormData>({
+    grapes: product.bottleDetails?.grapes,
+    region: product.bottleDetails?.region,
+    classification: product.bottleDetails?.classification,
+    tastingNotes: product.bottleDetails?.tastingNotes,
+    drinkWindowStart: product.bottleDetails?.drinkWindowStart,
+    drinkWindowEnd: product.bottleDetails?.drinkWindowEnd,
+    servingTempMin: product.bottleDetails?.servingTempMin,
+    servingTempMax: product.bottleDetails?.servingTempMax,
+    decantingMinutesMin: product.bottleDetails?.decantingMinutesMin,
+    decantingMinutesMax: product.bottleDetails?.decantingMinutesMax,
+    pairings: product.bottleDetails?.pairings,
+    productionBottlesApprox: product.bottleDetails?.productionBottlesApprox,
+    allergens: product.bottleDetails?.allergens,
+    taxDisplay: product.bottleDetails?.taxDisplay,
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const [wantsToSell, setWantsToSell] = useState(true);
-  const [wantsToExchange, setWantsToExchange] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [bottleDetails, setBottleDetails] = useState<BottleDetailsFormData>({});
-  const [images, setImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Déterminer si c'est une vente ou un échange basé sur le produit
+    // Pour l'instant, on assume que si le prix existe, c'est une vente
+    setWantsToSell(!!product.price);
+    setWantsToExchange(!product.price);
+  }, [product]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -38,11 +73,34 @@ export const CreateListing = () => {
     setImages(images.filter((_, i) => i !== index));
   };
 
+  const handleSave = () => {
+    if (onSave) {
+      onSave({
+        title,
+        price: wantsToSell ? parseFloat(price) : undefined,
+        condition,
+        description,
+        stock: stock ? parseInt(stock) : undefined,
+        images,
+        category: selectedCategory,
+        bottleDetails,
+      });
+    }
+    onBack();
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 pb-24 md:pb-4">
       <div className="mb-8">
-        <h1 className="text-2xl text-airbnb-bold text-gray-900">Déposer une annonce</h1>
-        <p className="text-gray-500">Vendre ou échanger, c'est simple et rapide.</p>
+        <button 
+          onClick={onBack} 
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-4 transition-colors"
+        >
+          <Icons.ArrowLeft size={18} />
+          <span className="text-airbnb-medium">Retour</span>
+        </button>
+        <h1 className="text-2xl text-airbnb-bold text-gray-900">Modifier l'annonce</h1>
+        <p className="text-gray-500">Mettez à jour les informations de votre annonce.</p>
       </div>
 
       <div className="space-y-8">
@@ -57,7 +115,10 @@ export const CreateListing = () => {
                       ? 'border-2 border-wine-900 bg-wine-50' 
                       : 'border border-gray-200 hover:border-wine-400 hover:bg-wine-50/50'
                   }`}
-                  onClick={() => setWantsToSell(!wantsToSell)}
+                  onClick={() => {
+                    setWantsToSell(true);
+                    setWantsToExchange(false);
+                  }}
                 >
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
                       wantsToSell 
@@ -75,7 +136,10 @@ export const CreateListing = () => {
                       ? 'border-2 border-orange-500 bg-orange-50' 
                       : 'border border-gray-200 hover:border-orange-400 hover:bg-orange-50/50'
                   }`}
-                  onClick={() => setWantsToExchange(!wantsToExchange)}
+                  onClick={() => {
+                    setWantsToExchange(true);
+                    setWantsToSell(false);
+                  }}
                 >
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
                       wantsToExchange 
@@ -127,7 +191,13 @@ export const CreateListing = () => {
             
             <div>
                 <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Titre de l'annonce</label>
-                <input type="text" placeholder="Ex: Macallan 18 ans Sherry Oak 2023" className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 focus:border-transparent outline-none bg-white text-gray-900" />
+                <input 
+                  type="text" 
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Ex: Macallan 18 ans Sherry Oak 2023" 
+                  className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 focus:border-transparent outline-none bg-white text-gray-900" 
+                />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -144,7 +214,11 @@ export const CreateListing = () => {
                 </div>
                 <div>
                     <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">État</label>
-                    <select className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900">
+                    <select 
+                      value={condition}
+                      onChange={(e) => setCondition(e.target.value)}
+                      className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900"
+                    >
                         <option>Scellé / Neuf</option>
                         <option>Ouvert (Niveau col)</option>
                         <option>Coffret abîmé</option>
@@ -152,23 +226,44 @@ export const CreateListing = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            {wantsToSell && (
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Prix (€)</label>
-                    <div className="relative">
-                        <input type="number" placeholder="0" className="w-full p-2.5 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900" />
-                        <span className="absolute left-3 top-2.5 text-gray-500">€</span>
-                    </div>
+                  <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Prix (€)</label>
+                  <div className="relative">
+                    <input 
+                      type="number" 
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      placeholder="0" 
+                      className="w-full p-2.5 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900" 
+                    />
+                    <span className="absolute left-3 top-2.5 text-gray-500">€</span>
+                  </div>
                 </div>
                 <div>
-                    <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Stock (optionnel)</label>
-                    <input type="number" min="1" placeholder="Nb bouteilles" className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900" />
+                  <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Stock (optionnel)</label>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    value={stock}
+                    onChange={(e) => setStock(e.target.value)}
+                    placeholder="Nb bouteilles" 
+                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none bg-white text-gray-900" 
+                  />
                 </div>
-            </div>
+              </div>
+            )}
 
             <div>
                  <label className="block text-sm text-airbnb-medium text-gray-700 mb-1">Description</label>
-                 <textarea rows={4} placeholder="Dites-en plus sur l'histoire de la bouteille, son stockage, etc." className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none resize-none bg-white text-gray-900"></textarea>
+                 <textarea 
+                   rows={4} 
+                   value={description}
+                   onChange={(e) => setDescription(e.target.value)}
+                   placeholder="Dites-en plus sur l'histoire de la bouteille, son stockage, etc." 
+                   className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wine-900 outline-none resize-none bg-white text-gray-900"
+                 ></textarea>
             </div>
 
             {/* Fiche bouteille */}
@@ -183,8 +278,8 @@ export const CreateListing = () => {
 
         {/* Action */}
         <div className="flex flex-col sm:flex-row gap-2 pb-8 md:pb-4">
-             <Button variant="outline" fullWidth>Prévisualiser</Button>
-             <Button fullWidth>Publier l'annonce</Button>
+             <Button variant="outline" fullWidth onClick={onBack}>Annuler</Button>
+             <Button fullWidth onClick={handleSave}>Enregistrer les modifications</Button>
         </div>
       </div>
     </div>
