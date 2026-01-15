@@ -19,6 +19,8 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
   const [exchangeOnly, setExchangeOnly] = useState(false);
   const [proSellerOnly, setProSellerOnly] = useState(false);
   const [deliveryAvailable, setDeliveryAvailable] = useState(false);
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const [showAllCategoriesMobile, setShowAllCategoriesMobile] = useState(false);
 
   // Filter logic mockup
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
@@ -30,39 +32,19 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
     return true;
   });
 
-  const FilterSidebar = () => (
+  const FilterSidebar = () => {
+    // Sur mobile, limiter à 6 catégories. Sur desktop, limiter à 11 (avant Cognac) sauf si showAllCategories est true
+    const categoriesToShowMobile = showAllCategoriesMobile ? CATEGORIES : CATEGORIES.slice(0, 6);
+    const categoriesToShowDesktop = showAllCategories ? CATEGORIES : CATEGORIES.slice(0, 11);
+    
+    return (
     <div className="space-y-3 pb-0.5">
       {/* Category Filter */}
       <div>
         <h3 className="text-airbnb-bold text-gray-900 mb-2 text-sm">Catégorie</h3>
-        <div className="grid grid-cols-2 md:grid-cols-1 gap-1.5 md:space-y-1.5 md:max-h-none md:overflow-visible">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <div className="relative">
-              <input 
-                type="checkbox" 
-                checked={selectedCategories.has('all')} 
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedCategories(new Set(['all']));
-                  } else {
-                    setSelectedCategories(new Set());
-                  }
-                }}
-                className="absolute opacity-0 w-0 h-0"
-              />
-              <div className={`w-5 h-5 rounded-full border transition-all duration-200 flex items-center justify-center ${
-                selectedCategories.has('all')
-                  ? 'bg-wine-900 border-white/30' 
-                  : 'bg-white/90 backdrop-blur-md border-gray-400 hover:border-wine-400'
-              }`}>
-                {selectedCategories.has('all') && (
-                  <Icons.Check size={11} className="text-white" strokeWidth={2.5} />
-                )}
-              </div>
-            </div>
-            <span className="text-sm text-gray-700">Tout voir</span>
-          </label>
-          {CATEGORIES.map(cat => (
+        {/* Mobile: une seule ligne verticale */}
+        <div className="md:hidden space-y-1.5">
+          {categoriesToShowMobile.map(cat => (
             <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
               <div className="relative">
                 <input 
@@ -96,6 +78,108 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
               <span className="text-sm text-gray-700">{cat.label}</span>
             </label>
           ))}
+          {CATEGORIES.length > 6 && (
+            <>
+              {!showAllCategoriesMobile ? (
+                <button
+                  onClick={() => setShowAllCategoriesMobile(true)}
+                  className="text-sm text-wine-900 text-airbnb-medium hover:text-wine-800 mt-2 text-left"
+                >
+                  Voir plus
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowAllCategoriesMobile(false)}
+                  className="text-sm text-wine-900 text-airbnb-medium hover:text-wine-800 mt-2 text-left"
+                >
+                  Voir moins
+                </button>
+              )}
+            </>
+          )}
+        </div>
+        
+        {/* Desktop: avec espacements verticaux */}
+        <div className="hidden md:block space-y-1.5">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <div className="relative">
+              <input 
+                type="checkbox" 
+                checked={selectedCategories.has('all')} 
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedCategories(new Set(['all']));
+                  } else {
+                    setSelectedCategories(new Set());
+                  }
+                }}
+                className="absolute opacity-0 w-0 h-0"
+              />
+              <div className={`w-5 h-5 rounded-full border transition-all duration-200 flex items-center justify-center ${
+                selectedCategories.has('all')
+                  ? 'bg-wine-900 border-white/30' 
+                  : 'bg-white/90 backdrop-blur-md border-gray-400 hover:border-wine-400'
+              }`}>
+                {selectedCategories.has('all') && (
+                  <Icons.Check size={11} className="text-white" strokeWidth={2.5} />
+                )}
+              </div>
+            </div>
+            <span className="text-sm text-gray-700">Tout voir</span>
+          </label>
+          {categoriesToShowDesktop.map(cat => (
+            <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
+              <div className="relative">
+                <input 
+                  type="checkbox" 
+                  checked={selectedCategories.has(cat.id)}
+                  onChange={(e) => {
+                    const newSet = new Set(selectedCategories);
+                    if (e.target.checked) {
+                      newSet.delete('all');
+                      newSet.add(cat.id);
+                    } else {
+                      newSet.delete(cat.id);
+                      if (newSet.size === 0) {
+                        newSet.add('all');
+                      }
+                    }
+                    setSelectedCategories(newSet);
+                  }}
+                  className="absolute opacity-0 w-0 h-0"
+                />
+                <div className={`w-5 h-5 rounded-full border transition-all duration-200 flex items-center justify-center ${
+                  selectedCategories.has(cat.id)
+                    ? 'bg-wine-900 border-white/30' 
+                    : 'bg-white/90 backdrop-blur-md border-gray-400 hover:border-wine-400'
+                }`}>
+                  {selectedCategories.has(cat.id) && (
+                    <Icons.Check size={11} className="text-white" strokeWidth={2.5} />
+                  )}
+                </div>
+              </div>
+              <span className="text-sm text-gray-700">{cat.label}</span>
+            </label>
+          ))}
+          {CATEGORIES.length > 11 && (
+            <>
+              {!showAllCategories ? (
+                <button
+                  onClick={() => setShowAllCategories(true)}
+                  className="text-sm text-wine-900 text-airbnb-medium hover:text-wine-800 mt-2 text-left"
+                >
+                  Voir plus
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowAllCategories(false)}
+                  className="text-sm text-wine-900 text-airbnb-medium hover:text-wine-800 mt-2 text-left"
+                >
+                  Voir moins
+                </button>
+              )}
+            </>
+          )}
         </div>
       </div>
 
@@ -174,7 +258,8 @@ export const Explore: React.FC<ExploreProps> = ({ onProductClick, initialCategor
         </label>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 pb-8 md:pb-8">

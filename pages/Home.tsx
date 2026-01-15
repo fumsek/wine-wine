@@ -2,6 +2,7 @@ import React from 'react';
 import { Icons } from '../components/Icon';
 import { ProductCard } from '../components/ProductCard';
 import { AuctionCard } from '../components/AuctionCard';
+import { ArgusHomepageSection } from '../components/ArgusHomepageSection';
 import { CATEGORIES, MOCK_PRODUCTS, MOCK_AUCTIONS, MOCK_USER_PRO } from '../constants';
 import { Product } from '../types';
 
@@ -14,6 +15,7 @@ interface HomeProps {
   onNavigateToTendances?: () => void;
   onNavigateToOffers?: () => void;
   onNavigateToRareCollectors?: () => void;
+  onNavigateToArgus?: () => void;
 }
 
 // Icon mapping for categories with specific colors and optional images
@@ -112,7 +114,7 @@ const CATEGORY_ICONS: Record<string, { icon?: React.ElementType, image?: string,
   },
 };
 
-export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, favoriteIds = new Set(), onFavoriteToggle, onUserClick, onNavigateToTendances, onNavigateToOffers, onNavigateToRareCollectors }) => {
+export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, favoriteIds = new Set(), onFavoriteToggle, onUserClick, onNavigateToTendances, onNavigateToOffers, onNavigateToRareCollectors, onNavigateToArgus }) => {
   // Mock subset for trends - more products for horizontal scroll on desktop
   const trendingProducts = MOCK_PRODUCTS.slice(0, 8);
   const rareProducts = MOCK_PRODUCTS.filter(p => p.isRare);
@@ -217,8 +219,13 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
           </div>
         </section>
 
-        {/* Offres */}
-        <section className="mb-8 pt-4">
+        {/* Argus des Bouteilles - Masqué temporairement */}
+        {/* <ArgusHomepageSection 
+          onNavigateToArgus={onNavigateToArgus}
+        /> */}
+
+        {/* Offres - Masqué temporairement */}
+        {/* <section className="mb-8 pt-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <h2 className="text-lg md:text-xl text-airbnb-extra-bold text-gray-900 whitespace-nowrap">Offres en cours</h2>
@@ -243,7 +250,7 @@ export const Home: React.FC<HomeProps> = ({ onProductClick, onCategoryClick, fav
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Cave Spotlight */}
         <section className="mb-8 pt-4">

@@ -16,6 +16,7 @@ import { Help } from './pages/Help';
 import { TendancesPage } from './pages/TendancesPage';
 import { OffersPage } from './pages/OffersPage';
 import { RareCollectorsPage } from './pages/RareCollectorsPage';
+import { ArgusPage } from './pages/ArgusPage';
 import { Product, User } from './types';
 import { MOCK_PRODUCTS } from './constants';
 
@@ -111,6 +112,7 @@ const App = () => {
             onNavigateToTendances={() => setActiveTab('tendances')}
             onNavigateToOffers={() => setActiveTab('offers')}
             onNavigateToRareCollectors={() => setActiveTab('rare-collectors')}
+            onNavigateToArgus={() => setActiveTab('argus')}
           />
         );
       case 'explore':
@@ -139,6 +141,7 @@ const App = () => {
             onNavigateToExchanges={() => setActiveTab('exchanges')}
             onNavigateToPayments={() => setActiveTab('payments')}
             onNavigateToHelp={() => setActiveTab('help')}
+            onNavigateToCreateListing={() => setActiveTab('sell')}
           />
         );
       case 'exchanges':
@@ -170,6 +173,16 @@ const App = () => {
             onBack={() => setActiveTab('home')}
             favoriteIds={favoriteIds}
             onFavoriteToggle={handleFavoriteToggle}
+          />
+        );
+      case 'argus':
+        return (
+          <ArgusPage 
+            onBack={() => setActiveTab('home')}
+            onNavigateToCreateListing={(bottleId) => {
+              setActiveTab('sell');
+              // Could pre-fill bottle data here if needed
+            }}
           />
         );
       case 'favorites':

@@ -9,13 +9,15 @@ interface ProfileProps {
   onNavigateToExchanges?: () => void;
   onNavigateToPayments?: () => void;
   onNavigateToHelp?: () => void;
+  onNavigateToCreateListing?: () => void;
 }
 
 export const Profile: React.FC<ProfileProps> = ({ 
   onNavigateToFavorites,
   onNavigateToExchanges,
   onNavigateToPayments,
-  onNavigateToHelp
+  onNavigateToHelp,
+  onNavigateToCreateListing
 }) => {
   const user = MOCK_USER_PRO;
   const userListings = MOCK_PRODUCTS.filter(p => p.seller.id === user.id || Math.random() > 0.5); // Mock random listings for demo
@@ -105,7 +107,14 @@ export const Profile: React.FC<ProfileProps> = ({
          <div className="md:col-span-3 pb-24 md:pb-0">
             <div className="flex items-center justify-between mb-6 gap-4">
                 <h2 className="text-lg md:text-xl text-airbnb-bold text-gray-900 whitespace-nowrap">Mes annonces ({userListings.length})</h2>
-                <Button size="sm" variant="primary" className="text-xs md:text-sm whitespace-nowrap flex-shrink-0">Ajouter une annonce</Button>
+                <Button 
+                  size="sm" 
+                  variant="primary" 
+                  className="text-xs md:text-sm whitespace-nowrap flex-shrink-0"
+                  onClick={onNavigateToCreateListing}
+                >
+                  Ajouter une annonce
+                </Button>
             </div>
              
              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -172,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onProdu
             {/* Search Dropdown */}
             {showDropdown && (productResults.length > 0 || userResults.length > 0) && (
               <div className="fixed md:absolute top-16 md:top-12 left-0 md:left-0 right-0 md:right-0 bg-white border border-gray-200 md:rounded-2xl shadow-xl z-50 max-h-[calc(100vh-8rem)] md:max-h-[500px] overflow-y-auto">
-                <div className="p-2 pb-24 md:pb-2">
+                <div className="p-2 pb-8 md:pb-2">
                   {/* Products */}
                   {productResults.map(product => (
                     <button
