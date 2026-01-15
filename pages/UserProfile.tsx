@@ -126,7 +126,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
       </div>
 
       {/* Floating Carton Button */}
-      {userProductsInCarton.length > 0 && (
+      {isSelectionMode && (
         <div className="fixed bottom-28 md:bottom-8 left-1/2 transform -translate-x-1/2 z-40">
           <button
             onClick={() => onNavigateToCarton?.()}
@@ -135,7 +135,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             <div className="relative">
               <Icons.Package size={20} className="md:w-6 md:h-6 text-white" />
               <span className="absolute -top-2 -right-2 w-5 h-5 md:w-6 md:h-6 bg-white text-wine-900 rounded-full flex items-center justify-center text-xs md:text-sm text-airbnb-bold">
-                {Array.from(cartonQuantities.values()).reduce((sum, qty) => sum + qty, 0)}
+                {Array.from(cartonQuantities.values()).reduce((sum, qty) => sum + qty, 0) || 0}
               </span>
             </div>
             <span className="text-xs md:text-base text-airbnb-medium text-white whitespace-nowrap">Voir mon carton</span>
